@@ -188,3 +188,177 @@ document.querySelectorAll(".faq-question").forEach((button) => {
     }
   });
 });
+
+(function shiprocketDemoNav() {
+  const DEMO_SESSION_KEY = "shiprocket_demo_session";
+
+  function readDemoSession() {
+    try {
+      const raw = sessionStorage.getItem(DEMO_SESSION_KEY);
+      if (!raw) return null;
+      const o = JSON.parse(raw);
+      if (!o || typeof o.displayName !== "string" || !o.displayName.trim()) return null;
+      return o;
+    } catch {
+      return null;
+    }
+  }
+
+  function readNavSession() {
+    if (typeof window.insforgeAuthHasSession === "function" && window.insforgeAuthHasSession()) {
+      const u = typeof window.insforgeAuthGetStoredUser === "function" ? window.insforgeAuthGetStoredUser() : null;
+      if (u && (u.email || u.name)) {
+        const displayName = (u.name && String(u.name).trim()) || (u.email ? u.email.split("@")[0] : "User");
+        return { displayName, email: u.email || "", flow: "insforge" };
+      }
+    }
+    return readDemoSession();
+  }
+
+  function initialsFromSession(displayName, email) {
+    const s = (displayName || "").trim() || (email || "").split("@")[0] || "U";
+    const parts = s.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase().slice(0, 2);
+    }
+    return s.slice(0, 2).toUpperCase();
+  }
+
+  function renderLoggedOutNav(navActions, drawer) {
+    navActions.textContent = "";
+    const loginA = document.createElement("a");
+    loginA.href = "login.html";
+    loginA.className = "login-link";
+    loginA.textContent = "Login";
+    const signupA = document.createElement("a");
+    signupA.href = "signup.html";
+    signupA.className = "btn btn-outline";
+    signupA.textContent = "Get Started";
+    navActions.appendChild(loginA);
+    navActions.appendChild(signupA);
+
+    if (drawer) {
+      drawer.textContent = "";
+      const dLogin = document.createElement("a");
+      dLogin.href = "login.html";
+      dLogin.className = "drawer-login";
+      dLogin.textContent = "Login";
+      const dGo = document.createElement("a");
+      dGo.href = "signup.html";
+      dGo.className = "drawer-signup";
+      dGo.textContent = "Get Started";
+      drawer.appendChild(dLogin);
+      drawer.appendChild(dGo);
+    }
+  }
+
+  function renderLoggedInNav(navActions, drawer, sess) {
+    const initials = initialsFromSession(sess.displayName, sess.email);
+    const shortName =
+      sess.displayName.trim().length > 22
+        ? `${sess.displayName.trim().slice(0, 22)}…`
+        : sess.displayName.trim();
+
+    navActions.textContent = "";
+    const wrap = document.createElement("div");
+    wrap.className = "nav-demo-user";
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.id = "demoNavUserTrigger";
+    trigger.className = "nav-demo-user-trigger";
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-haspopup", "true");
+
+    const av = document.createElement("span");
+    av.className = "nav-demo-user-avatar";
+    av.setAttribute("aria-hidden", "true");
+    av.textContent = initials;
+
+    const nm = document.createElement("span");
+    nm.className = "nav-demo-user-name";
+    nm.textContent = shortName;
+
+    trigger.appendChild(av);
+    trigger.appendChild(nm);
+
+    const dd = document.createElement("div");
+    dd.id = "demoNavUserDropdown";
+    dd.className = "nav-demo-user-dropdown";
+    dd.hidden = true;
+
+    const profileA = document.createElement("a");
+    profileA.href = "profile.html";
+    profileA.className = "nav-demo-user-dropdown__link";
+    profileA.textContent = "Profile";
+
+    const ordersA = document.createElement("a");
+    ordersA.href = "orders.html";
+    ordersA.className = "nav-demo-user-dropdown__link";
+    ordersA.textContent = "Orders";
+
+    const logoutBtn = document.createElement("button");
+    logoutBtn.type = "button";
+    logoutBtn.id = "demoNavLogout";
+    logoutBtn.className = "nav-demo-user-dropdown__btn";
+    logoutBtn.textContent = "Log out";
+
+    dd.appendChild(profileA);
+    dd.appendChild(ordersA);
+    dd.appendChild(logoutBtn);
+    wrap.appendChild(trigger);
+    wrap.appendChild(dd);
+    navActions.appendChild(wrap);
+
+    if (drawer) {
+      drawer.textContent = "";
+      const dProfile = document.createElement("a");
+      dProfile.href = "profile.html";
+      dProfile.className = "drawer-login";
+      dProfile.textContent = "Profile";
+      const dOrders = document.createElement("a");
+      dOrders.href = "orders.html";
+      dOrders.className = "drawer-login";
+      dOrders.textContent = "Orders";
+      const dOut = document.createElement("button");
+      dOut.type = "button";
+      dOut.className = "drawer-login nav-demo-drawer-logout";
+      dOut.textContent = "Log out";
+      drawer.appendChild(dProfile);
+      drawer.appendChild(dOrders);
+      drawer.appendChild(dOut);
+    }
+  }
+
+  function refreshDemoNav() {
+    const navActions = document.querySelector(".site-header .nav-actions");
+    if (!navActions) return;
+    const drawer = document.querySelector(".site-header .drawer-actions");
+    const sess = readNavSession();
+    if (sess) {
+      renderLoggedInNav(navActions, drawer, sess);
+    } else {
+      renderLoggedOutNav(navActions, drawer);
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    const trigger = document.getElementById("demoNavUserTrigger");
+    const dd = document.getElementById("demoNavUserDropdown");
+    if (!trigger || !dd) return;
+    if (e.target.closest("#demoNavUserTrigger")) {
+      e.preventDefault();
+      const open = dd.hidden === false;
+      dd.hidden = open;
+      trigger.setAttribute("aria-expanded", String(!open));
+      return;
+    }
+    if (!dd.hidden && !dd.contains(e.target) && !trigger.contains(e.target)) {
+      dd.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  window.__shiprocketDemoNavRefresh = refreshDemoNav;
+  refreshDemoNav();
+})();

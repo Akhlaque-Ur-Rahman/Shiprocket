@@ -32,7 +32,29 @@ node scripts/print-insforge-anon-token.cjs
 
 4. Edit [`insforge-config.js`](../insforge-config.js): set `enabled` to `true`, set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`.
 
-Optional: keep secrets out of git by copying `insforge-config.example.js` to `insforge-config.local.js`, filling values, adding `<script src="insforge-config.local.js"></script>` before `insforge-client.js` in `shipping.html`, and leaving the committed `insforge-config.js` with `enabled: false`.
+Optional: keep secrets out of git by copying `insforge-config.example.js` to `insforge-config.local.js`, filling values, adding `<script src="insforge-config.local.js"></script>` before `insforge-client.js` on pages that use InsForge (`shipping.html`, `login.html`, `signup.html`, `account.html`, `profile.html`, `orders.html`, `index.html`), and leaving the committed `insforge-config.js` with `enabled: false` if you prefer.
+
+## Email sign up and sign in (InsForge Auth REST)
+
+When `enabled` is `true` and `baseUrl` is set, the site calls InsForge native auth endpoints (see [Authentication API](https://docs.insforge.dev/sdks/rest/auth.md)):
+
+- **Register:** `POST /api/auth/users?client_type=mobile` with `email`, `password` (minimum 8 characters), and `name`. The `mobile` client type returns `accessToken` and `refreshToken` in the JSON body (good for static hosting without relying on httpOnly cookies).
+- **Sign in:** `POST /api/auth/sessions?client_type=mobile` with `email` and `password`.
+- **Tokens** are stored in `sessionStorage` under `insforge_access_token`, `insforge_refresh_token`, and `insforge_user`.
+
+Implementation files: [`insforge-auth-client.js`](../insforge-auth-client.js), [`auth-demo.js`](../auth-demo.js), [`insforge-client.js`](../insforge-client.js) (database calls use the user access token when present, otherwise the anon token for public `demo_shipments` reads).
+
+If your InsForge project requires **email verification**, the register response can set `requireEmailVerification: true` and omit tokens until the user verifies. The UI shows a short message in that case.
+
+## User orders table
+
+Migration [`migrations/20260515120000_user_orders.sql`](../migrations/20260515120000_user_orders.sql) creates `user_orders` with RLS so the **authenticated** role can only read and write rows where `user_id = auth.uid()`. After applying migrations, new sign ups insert one sample order row via the browser (see `auth-demo.js`).
+
+The **Orders** page ([`orders.html`](../orders.html)) loads `GET /api/database/records/user_orders` with the signed-in user JWT.
+
+## CORS and origins
+
+Your InsForge project must allow the origin you use to serve this static site (for example `http://localhost:3000`). Configure allowed origins in the InsForge dashboard if browser requests are blocked by CORS.
 
 ## Seed demo tracking IDs
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My orders - Shiprocket Style</title>
+  <link rel="icon" type="image/svg+xml" href="assets/SVG/favicon-white-bg.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1.2">
+</head>
+<body data-orders-page="1">
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo" aria-label="Shiprocket Home">
+        <img src="assets/SVG/shiprocket_logo.svg" alt="Shiprocket logo">
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav-links" id="navLinks">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <a href="index.html">Home</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="orders.html">Orders</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="resources.html">Resources</a>
+        <div class="drawer-actions">
+          <a href="login.html" class="drawer-login">Login</a>
+          <a href="signup.html" class="drawer-signup">Get Started</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="login.html" class="login-link">Login</a>
+        <a href="signup.html" class="btn btn-outline">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-container profile-demo-layout">
+      <div class="auth-card auth-card--signup">
+        <h1 class="auth-card-signup-heading">My orders</h1>
+        <p class="auth-terms" id="ordersIntro">Loading your orders from InsForge…</p>
+        <p id="ordersError" class="auth-inline-error" role="alert" hidden></p>
+        <div class="orders-table-wrap">
+          <table class="orders-table" id="ordersTable" hidden>
+            <thead>
+              <tr>
+                <th scope="col">Order</th>
+                <th scope="col">Status</th>
+                <th scope="col">Courier</th>
+                <th scope="col">Created</th>
+                <th scope="col">Track</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+        <p class="auth-footer-text auth-footer-text--tight">
+          <a href="profile.html">Profile</a> · <a href="shipping.html">Track shipment</a> · <a href="index.html">Home</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 Shiprocket Style Demo. Built for learning.</p>
+    </div>
+  </footer>
+
+  <script src="insforge-config.js"></script>
+  <script src="insforge-client.js"></script>
+  <script src="insforge-auth-client.js"></script>
+  <script src="script.js"></script>
+  <script src="orders.js" defer></script>
+</body>
+</html>

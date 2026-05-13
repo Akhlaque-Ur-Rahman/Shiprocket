@@ -19,4 +19,8 @@ When you extend the site, prefer either:
 
 ## Account page scripts
 
-[`account.html`](../account.html) uses the same script stack as [`login.html`](../login.html) (`script.js` plus [`auth-demo.js`](../auth-demo.js)) so no request is made to missing Supabase modules. If you wire Supabase or InsForge auth later, update scripts in one consistent pattern across auth pages.
+[`account.html`](../account.html) uses the same script stack as [`login.html`](../login.html) (`script.js` plus [`auth-demo.js`](../auth-demo.js)) so no request is made to missing Supabase modules. [`auth-demo.js`](../auth-demo.js) now performs client-only demo validation, opens the demo dialog, writes `sessionStorage` under `shiprocket_demo_session`, and works with [`script.js`](../script.js) to swap the header for a profile menu. If you wire Supabase or InsForge auth later, replace or narrow this demo path in one consistent pattern across auth pages.
+
+## Demo profile route
+
+[`profile.html`](../profile.html) reads the same `sessionStorage` key and redirects to [`login.html`](../login.html) when no demo session exists.

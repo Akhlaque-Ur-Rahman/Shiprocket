@@ -1,8 +1,8 @@
 # Academic Project Report
 
-**Project title:** Shiprocket-Style Logistics Platform (Static UI Prototype)
+**Project name (repository):** Shiprocket-Style Logistics Platform Demo (`shiprocket-style-demo`)
 
-**Document type:** Technical report for final-year presentation and evaluation
+**Document purpose:** Final college presentation and evaluation support. Content is derived from the repository codebase only.
 
 ---
 
@@ -10,158 +10,175 @@
 
 ### Abstract
 
-This work presents a static web prototype of a logistics and eCommerce enablement platform, visually and structurally aligned with the Shiprocket brand experience. The system delivers marketing and product-education surfaces (home, shipping, pricing, resources, solutions) together with illustrative login and signup flows. Interaction is implemented entirely in the browser through semantic HTML5, a token-based Cascading Style Sheets (CSS) design system, and unobtrusive JavaScript modules. A mock parcel-tracking workflow demonstrates user-interface patterns for multi-tab input, validation, modal results, and staged timeline animation without persistence or external courier integration.
+This repository delivers a **static, browser-side** logistics-style user experience: a marketing-style homepage and a detailed **shipping and tracking** product page. The core design combines **presentation-layer fidelity** with an **optional** integration path: when InsForge OSS is configured, tracking identifiers resolve against server-side rows in `demo_shipments`; otherwise a deterministic **client-side mock** timeline is shown. The work demonstrates how a student or portfolio project can balance **UI realism** with **controlled backend scope** using a Backend-as-a-Service (BaaS) pattern instead of a custom application server.
 
-### Problem Statement
+### Introduction
 
-Academic and portfolio contexts often require a tangible artifact that communicates complex logistics software value propositions (coverage, tracking, integrations) while remaining feasible without enterprise infrastructure. A full-stack clone is neither necessary nor proportionate for demonstrating visual design discipline, responsive layout, accessibility-minded controls, and front-end state patterns.
+**Problem statement.** Logistics dashboards in industry depend on carrier APIs, authentication, and operational databases. For an academic demo, a purely static mock often lacks **data credibility**, while building a full custom backend increases scope, deployment risk, and evaluation surface beyond the UI learning objectives.
 
-### Proposed Solution
+**Proposed solution.** The project uses vanilla HTML, CSS, and JavaScript. Optional InsForge exposes PostgreSQL-backed **seeded demo rows** through a REST records API, with Row Level Security (RLS) policies on `demo_shipments`. A minimal browser client (`insforge-client.js`) performs authenticated GET requests; `shipping.js` implements validation, modal presentation, and step-wise timeline animation.
 
-A **static-site architecture**: discrete HTML documents share one global stylesheet and small, page-scoped scripts. Cross-cutting navigation, hero carousel, and FAQ behaviour live in `script.js`. Shipping-specific tracking demo logic is isolated in `shipping.js`. Authentication **demonstration** (validation plus modal acknowledgement) is confined to `auth-demo.js`.
+**Core objectives (code-aligned).**
 
-### Core Objectives
-
-1. Reproduce a credible, responsive marketing and product surface with consistent typography (Google Fonts: Manrope, Sora) and tokenised colour roles (`RULEBOOK.md`, `:root` in `style.css`).
-2. Implement an educational **order status** visual using synchronised CSS keyframes (documented in `SHIPPING_PAGE_SECTIONS.md`).
-3. Provide a **mock tracking** path: tab configuration, input validation, `<dialog>` presentation, and programmatic step highlighting (`shipping.js`).
-4. Maintain **progress documentation** for phased delivery (`TASKS.md`, `Home_Page_Documentation`).
+1. Multi-tab tracking entry: AWB, Order ID, Mobile (`shipping.js`, `TAB_CONFIG`).
+2. Optional database-backed resolution of demo shipments (`tryInsForgeThenMock` in `shipping.js`).
+3. Accessible staggered timeline visualization inside a `<dialog>` (`createStepLi`, `runStaggerAnimation`).
+4. Repeatable local setup documented in `docs/INSFORGE_LOCAL.md`, with schema and seed data in `migrations/`.
 
 ---
 
-## 2. Technology Stack (Evidence-Based)
+## 2. Technology Stack
 
-### Frontend
+Evidence is taken from repository files: `package.json`, HTML pages, JavaScript modules, SQL migrations, and `docs/INSFORGE_LOCAL.md`.
 
-- **Markup:** HTML5 documents (`index.html`, `shipping.html`, `login.html`, `signup.html`, `pricing.html`, `resources.html`, `solutions.html`).
-- **Styling:** Single primary stylesheet `style.css`; optional captured reference stylesheet `shiprocket.in-styles-2026-04-30.css` (present in repository; include in scope only if the evaluation explicitly covers reference assets).
-- **Scripting:** ECMAScript in the browser; no transpiler or bundler is evidenced in the repository.
-- **Fonts:** Google Fonts links in each HTML `<head>` (families **Manrope**, **Sora**).
-- **Media:** SVG and WebP under `assets/` (referenced from `script.js` hero slide configuration).
+| Layer | Technologies or artifacts | Evidence |
+|--------|---------------------------|----------|
+| **Frontend** | Vanilla HTML, CSS, client JavaScript; no SPA framework declared in `package.json` | `index.html`, `shipping.html`, `script.js`, `shipping.js` |
+| **In-repository application backend** | None; no Express or similar server as the app backend | Repository layout; `package.json` has no `dependencies` block |
+| **Optional BaaS** | InsForge OSS REST (`/api/database/records/...`), anonymous JWT | `insforge-client.js`, `scripts/print-insforge-anon-token.cjs`, `docs/INSFORGE_LOCAL.md` |
+| **Database** | PostgreSQL schema, indexes, RLS, seed `INSERT` / `UPDATE` | `migrations/*.sql` |
+| **Tooling** | Static HTTP via `npx serve`; Node for token helper | `package.json` scripts: `serve`, `insforge:anon-token` |
 
-### Backend
-
-- **Not implemented** in this repository.
-
-### Database
-
-- **Not implemented**; no schema migrations or data store.
-
-### Deployment and Runtime
-
-- **Static hosting** or local file preview: any HTTP static file server suffices. No container or continuous integration configuration was identified in the explored project tree.
-
-**Note on dependency manifests:** The repository contains no `package.json` or `requirements.txt`. The stack is inferred from linked HTML, CSS, and JavaScript files.
+**Note:** `package.json` does not list npm package `dependencies`. Runtime assumes a modern browser and, optionally, Node.js for InsForge CLI usage and the anon token script.
 
 ---
 
 ## 3. System Architecture and Workflow
 
-### High-Level Description
+### Narrative overview
 
-The user agent loads an HTML document. The browser fetches shared `style.css` and one or two scripts per page (`script.js` on all reviewed pages; `shipping.js` on `shipping.html`; `auth-demo.js` on login and signup with `data-auth-page` on `<body>`). Rendering combines DOM structure, CSS layout and animation, and event-driven JavaScript. There is no network round-trip for application logic beyond font and static asset requests.
+The user opens `shipping.html` and enters a tracking reference. `shipping.js` applies validation (non-empty input, rejection of pasted URLs on non-mobile paths, ten-digit rule for the mobile tab). If `window.insforgeIsEnabled()` is true (configuration includes `enabled`, `baseUrl`, and `anonAccessToken`), the page calls `insforgeQueryRecords` with PostgREST-style filters. On a matching row, header fields and the `steps` JSON array populate the modal. If no row matches, InsForge is disabled, or the request fails, the UI falls back to built-in `MOCK_STEPS` and tab-level presentation defaults, with explicit fallback copy via `setFallbackNote`.
 
-### Mermaid: Component Interaction
+### Mermaid diagram: components and data flow
 
 ```mermaid
 flowchart LR
-  subgraph client [User browser]
-    HTML[HTML documents]
-    CSS[style.css tokens and layout]
-    JSNav[script.js navigation hero FAQ]
-    JSShip[shipping.js mock tracking]
-    JSAuth[auth-demo.js demo auth]
+  subgraph Client["Web client (static)"]
+    SH["shipping.html"]
+    CFG["insforge-config.js\nwindow.__INSFORGE_CONFIG"]
+    CLI["insforge-client.js"]
+    LOG["shipping.js"]
+    SH --> CFG
+    SH --> CLI
+    SH --> LOG
+    LOG --> CFG
+    LOG --> CLI
   end
-  subgraph assets [Static assets]
-    IMG[WebP and SVG]
-    FONT[Google Fonts CDN]
+  subgraph Optional["InsForge OSS (optional)"]
+    REST["GET /api/database/records/demo_shipments"]
+    PG[(PostgreSQL)]
+    REST --> PG
   end
-  HTML --> CSS
-  HTML --> JSNav
-  HTML --> JSShip
-  HTML --> JSAuth
-  JSNav --> IMG
-  JSShip --> HTML
-  JSAuth --> HTML
-  CSS --> FONT
+  CLI -->|"Bearer anon JWT"| REST
+  LOG -->|"DOM updates, modal, animation"| SH
 ```
 
 ---
 
 ## 4. Implementation Details (Critical Modules)
 
-### Module A: Global Chrome and Homepage Interactions (`script.js`)
+### Module A: Shipping page controller (`shipping.js`)
 
-- **Mobile navigation:** toggles `.show` on `#navLinks`, synchronises a programmatic `.menu-backdrop`, locks `document.body.style.overflow`, updates `aria-expanded` on `#menuToggle`.
-- **Hero carousel:** array `heroSlides` holds `{ src, alt, badges }`; `goToSlide` uses modular indexing `(index + length) % length`; `setInterval` every 5000 ms for auto-advance; dot `data-slide` drives direct index selection.
-- **FAQ accordion:** single-open pattern: on question click, all `.faq-item` lose `active`, then the current item toggles if it was closed.
+- **Tab configuration:** `TAB_CONFIG` and `TAB_PRESENTATION` drive placeholders, `inputmode`, labels, and default status and partner strings. `setActiveTab` updates button `active` state and `aria-selected`.
+- **URL prefill:** `URLSearchParams` reads `prefill` and `type` from the query string when both match a known tab.
+- **InsForge path:** `tryInsForgeThenMock` queries the configured table (default `demo_shipments`) with `reference` and `tab_key` filters. `pickDemoShipmentRow` selects the row where both fields match the user reference and active tab. If the active tab is AWB and the reference matches `ORD-` prefix, a second fetch uses tab key `order` and the UI may switch tab automatically.
+- **Header population:** `populateHeader` prefers database fields (`id_label`, `courier`, `status_text`, snake or camel case) over tab defaults.
+- **Timeline DOM:** `createStepLi` constructs list items; `applyStepProgress` toggles CSS modifier classes. `runStaggerAnimation` uses `STEP_MS = 580` and stores timeout ids in `staggerTimers`; `closeTrackingModal` and dialog `close` clear timers to avoid leaks and stale animations.
 
-### Module B: Shipping Mock Tracking (`shipping.js`)
+### Module B: InsForge minimal client (`insforge-client.js`)
 
-- **Configuration maps:** `TAB_CONFIG` (placeholder and `inputmode`), `TAB_PRESENTATION` (labels and demo partner strings), `MOCK_STEPS` (static timeline copy).
-- **URL prefill:** `URLSearchParams` reads `prefill` and `type`; `setActiveTab` and decoded value populate the field when valid.
-- **Validation:** empty input error; mobile branch requires exactly 10 digits after non-digit stripping.
-- **Timeline animation:** `renderStepsPending` builds list items; `applyStepProgress` assigns CSS state classes by index; `runStaggerAnimation` schedules `setTimeout` chains at `STEP_MS = 580` ms; `clearStaggerTimers` on modal close prevents stale updates.
-- **Modal:** native `<dialog>` with `showModal` / `close` fallback for older engines.
+- Exposes `window.insforgeQueryRecords(table, filters)` and `window.insforgeIsEnabled()`.
+- Builds `GET` URL: base URL plus `/api/database/records/` plus encoded table name and `URLSearchParams` from filters (e.g. `eq.` operators).
+- **Response normalization:** `normalizeRows` returns an array from a raw array, or from `body.value`, or from `body.data`, otherwise an empty array.
+- Non-OK HTTP responses throw after reading response text for diagnostics.
 
-### Module C: Order Status Motion System (`style.css`)
+### Module C: Runtime configuration (`insforge-config.js`, `insforge-config.example.js`)
 
-- **Synchronised 10 s loop:** `.flow-step` children use `step1_loop` through `step5_loop` each with `10s infinite`; connectors use `conn*_loop` and `::before` energy dots `dot*` on the same period, reducing per-element delay drift (as documented in `SHIPPING_PAGE_SECTIONS.md`).
+- Sets `window.__INSFORGE_CONFIG` with `enabled`, `baseUrl`, `anonAccessToken`, and `demoTable`.
+- The example file documents copying to a local gitignored config and loading order relative to `insforge-client.js`.
 
-### Module D: Authentication Demo (`auth-demo.js`)
+### Module D: Schema and data (`migrations/20260513162102_shiprocket-demo.sql` and follow-ups)
 
-- **Page dispatch:** reads `document.body.dataset.authPage`; branches `login` versus `signup`.
-- **Login:** 10-digit phone check on `#loginBusinessForm`; separate tracking field syncs placeholder from radio `name="login-track-type"`; successful track navigates to `shipping.html?prefill=…&type=…` via `encodeURIComponent`.
-- **Signup:** non-empty name, `EMAIL_RE` regex, 10-digit phone; success opens the same demo dialog pattern.
+- **Table `public.demo_shipments`:** `id` UUID default `gen_random_uuid()`, `reference` text, `tab_key` text with `CHECK (tab_key IN ('awb', 'order', 'mobile'))`, `courier`, `id_label`, `status_text`, `steps` `jsonb` default `[]`, `created_at` timestamptz default `now()`.
+- **Index:** `(reference, tab_key)`.
+- **RLS:** enabled; `SELECT` and `INSERT` policies for roles `anon` and `authenticated` as defined in the migration file.
+- **Grants:** `USAGE` on schema `public`; `SELECT`, `INSERT` on `demo_shipments` for `anon` and `authenticated`.
+- Later migrations add diverse seed rows and `UPDATE` statements so timeline `steps` align with header semantics documented in SQL comments (last step treated as current stage in the UI after animation).
+
+### Module E: Homepage and shared UX (`script.js`)
+
+- Mobile drawer: toggle, backdrop click, body scroll lock, `aria-expanded` on the menu control, optional drawer close control.
+- **Hero carousel:** `heroSlides` array drives image src, alt, and floating badge labels or values; modulo navigation via `goToSlide`; five-second auto-advance with reset on manual navigation.
+- **FAQ:** single-open accordion by removing `active` from siblings before toggling the clicked item.
 
 ---
 
 ## 5. Setup and Execution
 
-### Prerequisites
+**Prerequisites:** Node.js (for `npx` and `node`), a modern web browser, terminal access.
 
-- A modern web browser.
-- Optional: Node.js or Python or an editor live-server extension, only to serve files over HTTP (some browser features behave more predictably with `http://` than `file://`).
+### 5.1 Static site only (mock tracking)
 
-### Install Dependencies
+```bash
+cd "d:\AK47\Officials\Development\Projects\Shiprocket"
+npm run serve
+```
 
-- **Not applicable:** there is no `npm install` or `pip install -r requirements.txt` for this repository.
+Equivalent:
 
-### Environment Variables
+```bash
+npx --yes serve .
+```
 
-- **None** required for local execution.
+Open the printed `http://localhost:...` URL in the browser. Navigate to `shipping.html` as needed.
 
-### Run Locally (Step-by-Step)
+### 5.2 Optional: InsForge-linked database-backed demo
 
-1. Open the project root directory in a terminal.
-2. **Python 3 (recommended quick option):**  
-   `python -m http.server 8080`  
-   Then open `http://localhost:8080/index.html` in the browser.
-3. **Node.js (optional):**  
-   `npx --yes serve .`  
-   Follow the URL printed in the terminal.
-4. **Direct file open:** open `index.html` from the file explorer (behaviour may be limited; prefer an HTTP server for consistent results).
+1. Link the project (once per machine):
 
-### Smoke Test Checklist
+```bash
+npx @insforge/cli link --api-base-url "<your projectUrl>" --api-key "<accessApiKey>"
+```
 
-- **Home:** mobile menu, hero auto-slide, FAQ accordion.
-- **Shipping:** tracking tabs, track with valid mobile number, modal timeline animation.
-- **Login:** phone validation; track redirect with query string.
-- **Signup:** email regex and phone validation.
+2. Apply migrations from this repository:
+
+```bash
+npx @insforge/cli db migrations up --all -y
+```
+
+3. Print an anonymous JWT for browser use:
+
+```bash
+npm run insforge:anon-token
+```
+
+4. Edit `insforge-config.js` (or use a local override pattern described in `insforge-config.example.js` and `docs/INSFORGE_LOCAL.md`): set `enabled: true`, set `baseUrl` to your OSS host, set `anonAccessToken` to the printed token, and keep `demoTable` as `demo_shipments` unless you changed the table name.
+
+**Environment variables:** The static pages do not load a `.env` file for browser configuration; values are supplied through `window.__INSFORGE_CONFIG`. CLI credentials live in `.insforge/project.json` (documented as not for public commit).
+
+### 5.3 Demo reference values
+
+See the reference table in `docs/INSFORGE_LOCAL.md` for AWB, Order ID, and Mobile examples and expected status lines.
 
 ---
 
-## References (Repository Artifacts)
+## Integrity Note
 
-| Artifact | Role |
-|----------|------|
-| `index.html`, `shipping.html`, `login.html`, `signup.html`, `pricing.html`, `resources.html`, `solutions.html` | Page structure and content |
-| `style.css` | Design tokens, layout, animations |
-| `script.js` | Shared navigation, hero slider, FAQ |
-| `shipping.js` | Mock tracking UI |
-| `auth-demo.js` | Demo validation and deep link |
-| `RULEBOOK.md`, `TASKS.md`, `SHIPPING_PAGE_SECTIONS.md`, `Home_Page_Documentation` | Design and delivery documentation |
+Do not commit production API keys or long-lived tokens. Prefer `insforge-config.local.js` and gitignore rules as described in `docs/INSFORGE_LOCAL.md` and `insforge-config.example.js`. This report does not reproduce any live credentials.
 
 ---
 
-*End of report.*
+## References (in-repository)
+
+| Topic | Path |
+|--------|------|
+| Shipping logic | `shipping.js` |
+| InsForge HTTP client | `insforge-client.js` |
+| Browser config | `insforge-config.js`, `insforge-config.example.js` |
+| Anon token script | `scripts/print-insforge-anon-token.cjs` |
+| InsForge local guide | `docs/INSFORGE_LOCAL.md` |
+| Initial schema and seed | `migrations/20260513162102_shiprocket-demo.sql` |
+| Additional seed rows | `migrations/20260513171253_demo-shipment-variations.sql` |
+| Step and status alignment | `migrations/20260514103000_demo-shipment-steps-align-status.sql` |
+| Homepage and FAQ behavior | `script.js` |
+| NPM scripts | `package.json` |

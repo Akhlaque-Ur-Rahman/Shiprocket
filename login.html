@@ -27,6 +27,7 @@
         </button>
         <a href="index.html">Home</a>
         <a href="shipping.html">Shipping</a>
+        <a href="orders.html">Orders</a>
         <div class="mobile-accordion">
           <button class="mobile-accordion-toggle">
             Products 
@@ -195,18 +196,16 @@
       <div class="auth-card-wrapper">
         <div class="auth-card">
           <h2>For Business</h2>
+          <p class="auth-terms" style="margin-bottom: 12px;">Sign in with the email and password you used at sign up. New here? <a href="signup.html">Create an account</a>.</p>
           <form id="loginBusinessForm" class="auth-form" novalidate>
-            <label class="auth-label" for="loginPhone">Phone number</label>
-            <div class="phone-input-group">
-              <div class="country-code">+91</div>
-              <input type="tel" id="loginPhone" name="phone" class="phone-input" placeholder="Phone Number" autocomplete="tel" inputmode="numeric" maxlength="14" aria-describedby="loginPhoneError">
-            </div>
-            <p id="loginPhoneError" class="auth-inline-error" role="alert" hidden></p>
+            <label class="auth-label" for="loginEmail">Work email</label>
+            <input type="email" id="loginEmail" name="email" class="phone-input auth-input-full" placeholder="Work email" autocomplete="email" aria-describedby="loginBusinessError">
+            <label class="auth-label" for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" name="password" class="phone-input auth-input-full" placeholder="Password" autocomplete="current-password" aria-describedby="loginBusinessError">
+            <p id="loginBusinessError" class="auth-inline-error" role="alert" hidden></p>
             <button type="submit" class="auth-btn-primary">Continue</button>
           </form>
-          <p class="auth-terms">
-            By clicking on Continue, I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
-          </p>
+          <p class="auth-terms"><a href="#">Forgot password?</a> (demo: use InsForge reset if enabled in your project.)</p>
 
           <div class="auth-divider">OR</div>
 
@@ -265,9 +264,11 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <div class="auth-demo-dialog__inner">
-      <h2 id="authDemoTitle" class="auth-demo-dialog__title">Demo: next step</h2>
-      <p class="auth-demo-dialog__text">We do not send a real OTP here. In a real app you would verify your number and open the dashboard.</p>
+      <h2 id="authDemoTitle" class="auth-demo-dialog__title">Signed in</h2>
+      <p id="authDemoText" class="auth-demo-dialog__text">You can open your orders or continue to the homepage.</p>
       <div class="auth-demo-dialog__actions">
+        <a href="orders.html" class="btn btn-outline auth-demo-dialog__cta">Orders</a>
+        <a href="profile.html" class="btn btn-outline auth-demo-dialog__cta">Profile</a>
         <a href="index.html" class="btn btn-primary auth-demo-dialog__cta">Go to home</a>
       </div>
     </div>
@@ -292,6 +293,7 @@
       <div>
         <h4>Products</h4>
         <a href="shipping.html">Shipping</a>
+        <a href="orders.html">Orders</a>
         <a href="pricing.html">Pricing</a>
         <a href="solutions.html#solutions-segments">Solutions</a>
         <a href="#">Fulfillment</a>
@@ -323,6 +325,9 @@
     </div>
   </footer>
 
+  <script src="insforge-config.js"></script>
+  <script src="insforge-client.js"></script>
+  <script src="insforge-auth-client.js"></script>
   <script src="script.js"></script>
   <script src="auth-demo.js" defer></script>
 </body>

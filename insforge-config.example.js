@@ -7,4 +7,6 @@ window.__INSFORGE_CONFIG = {
   baseUrl: "https://YOUR_APPKEY.YOUR_REGION.insforge.app",
   anonAccessToken: "PASTE_ANON_JWT_FROM_print-insforge-anon-token_script",
   demoTable: "demo_shipments",
+  /** Query param for auth REST: mobile returns access and refresh tokens in JSON (good for static hosting) */
+  authClientType: "mobile",
 };
