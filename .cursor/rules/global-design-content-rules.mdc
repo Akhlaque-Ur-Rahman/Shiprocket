@@ -1,0 +1,28 @@
+---
+description: Global design and content guardrails
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Global Project Rules
+
+## Design Token Rule
+- Use predefined color tokens only.
+- Do not use hardcoded color values in component styles.
+- If a new color is needed, add it first in the token set in `:root`, then reference the token.
+- Follow a 60/30/10 visual balance per screen:
+  - 60% base neutrals and backgrounds
+  - 30% supporting surfaces and section fills
+  - 10% accents for CTA, focus, highlights
+- Keep semantic colors role-locked:
+  - success is green family only
+  - warning is orange family only
+  - danger is red family only
+  - info is cyan or blue family only
+- Do not use more than 2 to 3 brand hues prominently in one viewport.
+- Prefer gradients/tints from existing tokens instead of introducing new standalone colors.
+- Ensure accessible contrast for text and controls in all themes/sections.
+
+## Content Punctuation Rule
+- Do not use em dashes in UI copy or content.
+- Use commas, colons, or full stops instead.

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiprocket Style Homepage</title>
+  <link rel="icon" type="image/svg+xml" href="assets/SVG/favicon-white-bg.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo" aria-label="Shiprocket Home">
+        <img src="assets/SVG/shiprocket_logo.svg" alt="Shiprocket logo">
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav-links" id="navLinks">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <a href="index.html">Home</a>
+        <a href="shipping.html">Shipping</a>
+        <div class="mobile-accordion">
+          <button class="mobile-accordion-toggle">
+            Products 
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="mobile-accordion-content">
+            <a href="#">Domestic Shipping</a>
+            <a href="#">Cargo Shipping</a>
+            <a href="#">Quick</a>
+            <a href="#">Fulfillment</a>
+            <a href="#">ShipX</a>
+            <a href="#">CargoX</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle">Products <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></a>
+          <div class="mega-menu">
+            <div class="container">
+              <div class="mega-grid">
+                <div class="mega-main-wrapper">
+                  <div class="mega-main">
+                    <!-- Section 1: SHIPPING -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">Shipping</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #6366f1;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+                          <div class="mega-info"><h4>Domestic Shipping</h4><p>Shipping to 19,000+ unique pin codes</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #ec4899;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                          <div class="mega-info"><h4>Cargo Shipping</h4><p>Nationwide B2B & bulk shipping</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #f59e0b;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                          <div class="mega-info"><h4>Quick</h4><p>Speedy local deliveries at low costs</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #10b981;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+                          <div class="mega-info"><h4>Fulfillment</h4><p>Warehousing and packaging services</p></div>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Section 2: CROSS-BORDER -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">Cross-Border</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #6366f1;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div>
+                          <div class="mega-info"><h4>ShipX</h4><p>Shipping to 220+ countries & territories</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #8b5cf6;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                          <div class="mega-info"><h4>CargoX</h4><p>Cross-border B2B & bulk shipping</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #ec4899;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+                          <div class="mega-info"><h4>LaunchX</h4><p>End-to-end unified retail enablement</p></div>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Section 3: GROWTH & MARKETING -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">Growth & Marketing</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #3b82f6;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <div class="mega-info"><h4>Checkout</h4><p>Effortless single-click checkout solution</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #6366f1;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                          <div class="mega-info"><h4>Engage 360</h4><p>WhatsApp-centric marketing solutions</p></div>
+                        </a>
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #10b981;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                          <div class="mega-info"><h4>Promise</h4><p>EDD and trust badges for eCommerce</p></div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mega-bottom">
+                    <!-- FINANCIAL SERVICES -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">Financial Services</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #f59e0b;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                          <div class="mega-info"><h4>Capital</h4><p>Financial services support</p></div>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- AI ENABLED PRODUCTS -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">AI Enabled Products</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #8b5cf6;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.7 7.3c-.5-.2-.7-.8-.5-1.3.2-.5.8-.7 1.3-.5l9.5 4.8v1.7z"/></svg></div>
+                          <div class="mega-info"><h4>Sense</h4><p>Turning Data into Power with APIs</p></div>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- VOICE AI -->
+                    <div class="mega-section">
+                      <span class="mega-section-title">&nbsp;</span>
+                      <div class="mega-items-list">
+                        <a href="#" class="mega-item">
+                          <div class="mega-icon" style="color: #10b981;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+                          <div class="mega-info"><h4>Voice AI</h4><p>Build voice into anything you create</p></div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Section 4: SIDEBAR -->
+                <div class="mega-sidebar">
+                  <span class="mega-section-title">Value Added Services</span>
+                  <div class="mega-sidebar-list">
+                    <a href="#" class="mega-sidebar-link">Delivery Boost</a>
+                    <a href="#" class="mega-sidebar-link">Dark Stores</a>
+                    <a href="#" class="mega-sidebar-link">Delight Tracking</a>
+                    <a href="#" class="mega-sidebar-link">Instant COD</a>
+                    <a href="#" class="mega-sidebar-link">Instant Pick Up</a>
+                    <a href="#" class="mega-sidebar-link">Shiprocket Prime</a>
+                    <a href="#" class="mega-sidebar-link">Omuni</a>
+                    <a href="#" class="mega-sidebar-link">Packaging</a>
+                    <a href="#" class="mega-sidebar-link">Co-Pilot</a>
+                    <a href="#" class="mega-sidebar-link">Revprotect</a>
+                    <a href="#" class="mega-sidebar-link">Returns Management</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="solutions.html">Solutions</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="resources.html">Resources</a>
+        <div class="drawer-actions">
+          <a href="login.html" class="drawer-login">Login</a>
+          <a href="signup.html" class="drawer-signup">Get Started</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="login.html" class="login-link">Login</a>
+        <a href="signup.html" class="btn btn-outline">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-blobs" aria-hidden="true">
+        <span class="blob blob-one"></span>
+        <span class="blob blob-two"></span>
+        <span class="blob blob-three"></span>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Building success stories with 4 Lakhs plus businesses</p>
+          <h1>Scale your eCommerce shipping with speed, clarity, and control</h1>
+          <p class="hero-subtext">
+            Run domestic and global deliveries from one smart dashboard. Automate courier selection,
+            reduce delays, and keep customers informed at every stage.
+          </p>
+          <div class="hero-tags">
+            <span>Same-day shipping</span>
+            <span>Lower RTO risk</span>
+            <span>Live tracking</span>
+          </div>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">Start for Free</a>
+            <a href="#" class="btn btn-light">View Live Demo</a>
+          </div>
+          <div class="hero-slider-ui">
+            <button class="slider-arrow" id="heroPrevBtn" type="button" aria-label="Previous hero slide">‹</button>
+            <div class="slider-dots">
+              <button class="dot active" type="button" data-slide="0" aria-label="Go to slide 1"></button>
+              <button class="dot" type="button" data-slide="1" aria-label="Go to slide 2"></button>
+              <button class="dot" type="button" data-slide="2" aria-label="Go to slide 3"></button>
+              <button class="dot" type="button" data-slide="3" aria-label="Go to slide 4"></button>
+            </div>
+            <button class="slider-arrow" id="heroNextBtn" type="button" aria-label="Next hero slide">›</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <img id="heroMainImage" src="assets/WEBP/Desktop.webp" alt="Shipping analytics dashboard mockup">
+          <div class="hero-badges-container">
+            <article class="hero-float-card top-card">
+              <p id="heroBadgeTopLabel">WhatsApp Support</p>
+              <strong id="heroBadgeTopValue">Start Chat</strong>
+            </article>
+            <article class="hero-float-card middle-card">
+              <p id="heroBadgeMiddleLabel">Total orders</p>
+              <strong id="heroBadgeMiddleValue">63</strong>
+            </article>
+            <article class="hero-float-card bottom-card">
+              <p id="heroBadgeBottomLabel">Ready to ship</p>
+              <strong id="heroBadgeBottomValue">18 Active</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-metrics section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">Trust metrics</p>
+          <h2>Numbers that show real growth momentum</h2>
+          <p class="section-lead">Performance indicators across network coverage, scale, and reliability.</p>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <div class="metric-head"><span class="live-dot"></span><small>Live growth</small></div>
+            <h3>4 Lakhs+</h3>
+            <p>Businesses onboarded</p>
+            <div class="metric-foot"><span>+18% this quarter</span><div class="progress"><span style="width:82%"></span></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head"><span class="live-dot"></span><small>Network coverage</small></div>
+            <h3>19,000+</h3>
+            <p>Unique pin codes covered</p>
+            <div class="metric-foot"><span>+240 zones added</span><div class="progress"><span style="width:74%"></span></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head"><span class="live-dot"></span><small>Global expansion</small></div>
+            <h3>220+</h3>
+            <p>Countries and territories</p>
+            <div class="metric-foot"><span>+12 new lanes</span><div class="progress"><span style="width:68%"></span></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head"><span class="live-dot"></span><small>Courier network</small></div>
+            <h3>42+</h3>
+            <p>Courier partners integrated</p>
+            <div class="metric-foot"><span>99.2% uptime</span><div class="progress"><span style="width:91%"></span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="features section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">Benefits</p>
+          <h2>Why growth-focused brands choose us</h2>
+          <p class="section-lead">Every card below focuses on measurable outcomes, not just platform features.</p>
+        </div>
+        <div class="benefits-mixed-layout">
+          <article class="benefit-spotlight inverted-border inverted-scoop">
+            <div class="benefit-spotlight-copy">
+              <div class="benefit-top"><img src="assets/SVG/icon.svg" alt=""><span>Cost impact</span></div>
+              <h3>Lower shipping cost with smart route logic</h3>
+              <p>Courier recommendation engine maps every shipment to the best speed and price combination based on delivery zone and performance history.</p>
+              <strong>Up to 12% reduction in average shipping spend</strong>
+            </div>
+            <div class="media-frame media-frame-wide">
+              <img src="assets/WEBP/feat-img-6-NT2lKz.webp" alt="Shipping route optimization visual">
+            </div>
+          </article>
+          <div class="benefit-side-stack">
+            <article class="feature-card benefit-card compact">
+              <div class="benefit-top"><img src="assets/SVG/icon.svg" alt=""><span>Delivery speed</span></div>
+              <h3>Faster delivery</h3>
+              <p>Automated routing improves timelines across cities.</p>
+              <strong>Quicker turnaround</strong>
+            </article>
+            <article class="feature-card benefit-card compact">
+              <div class="benefit-top"><img src="assets/SVG/icon.svg" alt=""><span>Visibility</span></div>
+              <h3>Live order visibility</h3>
+              <p>Tracking updates reduce buyer anxiety and support load.</p>
+              <strong>Fewer support tickets</strong>
+            </article>
+          </div>
+        </div>
+        <div class="benefit-kpi-strip">
+          <article><h4>RTO control</h4><p>NDR workflows recover failed deliveries.</p></article>
+          <article><h4>Multi-channel sync</h4><p>All channels managed from one dashboard.</p></article>
+          <article><h4>Scalable operations</h4><p>Growth-ready workflows without rebuilds.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing section-space">
+      <div class="container">
+        <div class="section-title center">
+          <p class="eyebrow">Pricing</p>
+          <h2>Plans for every stage of growth</h2>
+          <p class="section-lead">Choose a plan that fits your business needs. No hidden fees, just clear value.</p>
+          <p class="section-lead"><a href="pricing.html" class="link-btn">View full pricing page<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></p>
+        </div>
+        <div class="pricing-grid">
+          <article class="pricing-card inverted-border">
+            <div class="badge">Basic</div>
+            <h3>Free</h3>
+            <p class="price">₹0<span>/month</span></p>
+            <ul>
+              <li>Up to 500 orders/month</li>
+              <li>Standard courier tracking</li>
+              <li>Email support</li>
+              <li>2 Sales channels</li>
+            </ul>
+            <a href="#" class="btn btn-outline">Get Started</a>
+          </article>
+          <article class="pricing-card highlighted inverted-border">
+            <div class="badge">Most Popular</div>
+            <h3>Pro</h3>
+            <p class="price">₹1,999<span>/month</span></p>
+            <ul>
+              <li>Up to 5,000 orders/month</li>
+              <li>Advanced NDR management</li>
+              <li>Priority chat support</li>
+              <li>Unlimited Sales channels</li>
+              <li>WhatsApp buyer notifications</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Start Pro Trial</a>
+          </article>
+          <article class="pricing-card inverted-border">
+            <div class="badge">Enterprise</div>
+            <h3>Custom</h3>
+            <p class="price">Talk to us</p>
+            <ul>
+              <li>Unlimited orders</li>
+              <li>Dedicated Account Manager</li>
+              <li>Custom API integrations</li>
+              <li>SLA-based support</li>
+              <li>White-labeled tracking pages</li>
+            </ul>
+            <a href="#" class="btn btn-outline">Contact Sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">How it works</p>
+          <h2>Start shipping in three simple steps</h2>
+          <p class="section-lead">A clear workflow from order sync to final delivery confirmation.</p>
+        </div>
+        <div class="timeline-band">
+          <article class="timeline-node">
+            <span>01</span>
+            <h3>Connect channels</h3>
+            <p>Sync website, marketplace, and social orders instantly.</p>
+            <small>Output: Unified order feed</small>
+          </article>
+          <article class="timeline-node">
+            <span>02</span>
+            <h3>Process shipments</h3>
+            <p>Assign courier, print labels, and dispatch in batches.</p>
+            <small>Output: Faster dispatch cycle</small>
+          </article>
+          <article class="timeline-node">
+            <span>03</span>
+            <h3>Track and optimize</h3>
+            <p>Monitor delivery status and reduce failure rates proactively.</p>
+            <small>Output: Better delivery success</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-highlights section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">Product highlights</p>
+          <h2>Tools built for shipping and growth</h2>
+          <p class="section-lead">Each module is designed to improve speed, control, and buyer experience.</p>
+        </div>
+        <div class="showcase-stack">
+          <article class="showcase-row inverted-border">
+            <div class="showcase-copy">
+              <small>Shipping + Fulfillment</small>
+              <h3>Operate faster with one logistics command center</h3>
+              <p>Automate courier assignment, warehouse dispatch, and status visibility using one integrated shipping stack.</p>
+              <div class="showcase-chips"><span>19,000+ pin codes</span><span>35+ warehouses</span></div>
+            </div>
+            <div class="showcase-visual"><img src="assets/WEBP/Integration-1-59lYcJ.webp" alt="Shipping and fulfillment dashboard"></div>
+          </article>
+          <article class="showcase-row reverse inverted-border">
+            <div class="showcase-copy">
+              <small>Checkout + Engage360</small>
+              <h3>Improve conversion and retention with smoother buyer journeys</h3>
+              <p>Reduce checkout friction and run personalized communication across buyer lifecycle touchpoints.</p>
+              <div class="showcase-chips"><span>Less than 40 sec checkout</span><span>Higher repeat purchase intent</span></div>
+            </div>
+            <div class="showcase-visual"><img src="assets/WEBP/Checkout-iI11vI.webp" alt="Checkout and engagement analytics"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="business-use section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">Business use-cases</p>
+          <h2>Built for every selling model</h2>
+          <p class="section-lead">Choose the path that matches your business model and growth stage.</p>
+        </div>
+        <div class="persona-strip">
+          <span class="active">D2C brands</span>
+          <span>Social sellers</span>
+          <span>Offline retailers</span>
+          <span>Large businesses</span>
+        </div>
+        <article class="persona-spotlight inverted-border">
+          <div class="persona-spotlight-copy">
+            <small>Active persona: Website-first sellers</small>
+            <h3>D2C brands</h3>
+            <p>Run direct orders with faster shipping promises, better branded tracking, and improved post-purchase communication.</p>
+            <div class="persona-signal-row">
+              <span>Conversion intent up</span>
+              <span>Support load down</span>
+            </div>
+            <ul>
+              <li>Predictable delivery experience for repeat buyers</li>
+              <li>Lower support load with proactive status updates</li>
+              <li>Outcome: Up to 20% conversion lift</li>
+            </ul>
+          </div>
+          <div class="media-frame persona-visual-frame">
+            <img src="assets/WEBP/Checkout_mweb%20demo-zYFEth.webp" alt="Checkout mobile experience visual" onerror="this.src='assets/SVG/sign-up-for-free.svg';">
+          </div>
+        </article>
+        <div class="persona-mini-grid">
+          <article><h4>Social sellers</h4><p>Handle Instagram and WhatsApp orders from one panel.</p></article>
+          <article><h4>Offline retailers</h4><p>Sync store inventory with online fulfillment workflows.</p></article>
+          <article><h4>Large businesses</h4><p>Scale multi-channel logistics with tighter controls.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials section-space">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">Testimonials</p>
+          <h2>What our sellers say</h2>
+          <p class="section-lead">Real feedback from teams using the platform to scale daily operations.</p>
+        </div>
+        <div class="testimonial-spotlight-layout">
+          <article class="testimonial-featured inverted-border">
+            <div class="testimonial-featured-head">
+              <div class="media-frame media-frame-avatar initials-avatar" aria-label="Riya Pant avatar">
+                <img src="assets/PNG/riya-pant.jpg" alt="Riya Pant" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+                <span class="avatar-fallback" aria-hidden="true">RP</span>
+              </div>
+              <div>
+                <small>Featured seller story</small>
+                <div class="testimonial-meta">
+                  <h4>Riya Pant</h4>
+                  <span>Beauty Brand Founder</span>
+                </div>
+              </div>
+            </div>
+            <p class="quote-text">"Delivery became faster and our repeat customers increased in three months. The team now spends more time on growth and less on manual dispatch work."</p>
+            <strong class="testimonial-outcome">Outcome: 4.9/5 support experience</strong>
+          </article>
+          <div class="testimonial-side-stack">
+            <article class="testimonial-card compact">
+              <p class="quote-text">"We scaled from one city to nationwide shipping without operations stress."</p>
+              <div class="testimonial-meta"><h4>Santosh K</h4><span>Operations Manager</span></div>
+              <strong class="testimonial-outcome">Pan-India delivery rollout</strong>
+            </article>
+            <article class="testimonial-card compact">
+              <p class="quote-text">"International order handling is smoother and our team saves hours daily."</p>
+              <div class="testimonial-meta"><h4>Abhay</h4><span>D2C Export Seller</span></div>
+              <strong class="testimonial-outcome">Daily processing time saved</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brands section-space">
+      <div class="container">
+        <div class="section-title center">
+          <p class="eyebrow">Integrations</p>
+          <h2>Connected with leading ecosystem partners</h2>
+          <p class="section-lead">Plug into the tools your team already uses, without heavy migration effort.</p>
+        </div>
+        <div class="integration-logo-wall-wrap">
+          <div class="integration-theme-panel inverted-border" aria-hidden="true">
+            <div class="integration-theme-chip-row">
+              <span>Store sync</span>
+              <span>Order flow</span>
+              <span>Buyer updates</span>
+            </div>
+            <div class="integration-theme-grid">
+              <article><strong>60+</strong><small>Commerce touchpoints</small></article>
+              <article><strong>99.2%</strong><small>Sync reliability</small></article>
+              <article><strong>24x7</strong><small>Data refresh cycle</small></article>
+            </div>
+          </div>
+          <div class="integration-logo-wall">
+          <article class="integration-logo"><img src="assets/WEBP/shopify.webp" alt="Shopify" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"><span class="integration-logo-fallback" aria-hidden="true">S</span><span>Shopify</span></article>
+          <article class="integration-logo"><img src="assets/WEBP/woocommerce.webp" alt="WooCommerce" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"><span class="integration-logo-fallback" aria-hidden="true">W</span><span>WooCommerce</span></article>
+          <article class="integration-logo"><img src="assets/WEBP/Razorpay.webp" alt="Razorpay" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"><span class="integration-logo-fallback" aria-hidden="true">R</span><span>Razorpay</span></article>
+          <article class="integration-logo"><span class="integration-logo-fallback always-show" aria-hidden="true">M</span><span>Marketplace</span></article>
+          <article class="integration-logo"><span class="integration-logo-fallback always-show" aria-hidden="true">ES</span><span>Enterprise stack</span></article>
+          <article class="integration-logo"><span class="integration-logo-fallback always-show" aria-hidden="true">RN</span><span>Retail network</span></article>
+          </div>
+        </div>
+        <div class="capability-ribbon">
+          <span>Storefronts</span>
+          <span>Payments</span>
+          <span>OMS</span>
+          <span>Marketplaces</span>
+          <span>Enterprise Ops</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band section-space">
+      <div class="container cta-inner">
+        <div class="cta-copy">
+          <p class="cta-kicker">Final CTA</p>
+          <h2>Ready to scale your shipping engine?</h2>
+          <p>Join businesses growing faster with one platform for delivery, visibility, and customer trust.</p>
+          <div class="cta-trust-points">
+            <span>Setup support included</span>
+            <span>No setup fee</span>
+            <span>Live in minutes</span>
+          </div>
+        </div>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-primary">Start Free</a>
+          <a href="#" class="cta-secondary">Talk to an expert</a>
+          <small>No setup fee. Go live quickly.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-brand-col">
+        <a href="index.html" class="footer-brand" aria-label="Shiprocket Home">
+          <img src="assets/SVG/shiprocket_logo.svg" alt="Shiprocket logo">
+        </a>
+        <p class="footer-summary">One platform for shipping, growth, and customer experience.</p>
+        <div class="footer-trust">
+          <span>4 Lakhs+ sellers</span>
+          <span>220+ countries</span>
+        </div>
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <a href="shipping.html">Shipping</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="solutions.html#solutions-segments">Solutions</a>
+        <a href="#">Fulfillment</a>
+        <a href="#">Checkout</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="resources.html#resources-featured">Blogs</a>
+        <a href="resources.html#resources-developers">Developers</a>
+        <a href="resources.html#resources-categories">Help Center</a>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <h4 class="footer-help-title">Support</h4>
+        <a href="#">Help Center</a>
+        <a href="shipping.html">Track Order</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Shiprocket Style Demo. Built for learning.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

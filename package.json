@@ -1,0 +1,9 @@
+{
+  "name": "shiprocket-style-demo",
+  "private": true,
+  "description": "Static Shiprocket-style demo with optional InsForge backend",
+  "scripts": {
+    "insforge:anon-token": "node scripts/print-insforge-anon-token.cjs",
+    "serve": "npx --yes serve ."
+  }
+}

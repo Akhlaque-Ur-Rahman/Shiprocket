@@ -1,0 +1,107 @@
+# Shiprocket-Style Homepage Design & UX Documentation
+
+## Overview
+**Purpose:** The homepage serves as the primary landing environment for a comprehensive logistics and fulfillment platform. It is designed to build immediate trust, demonstrate scale through metrics, and clearly communicate the value proposition of "speed, clarity, and control" for eCommerce shipping.
+**Target Audience:** D2C brand founders, social sellers (Instagram/WhatsApp), offline retailers expanding online, and enterprise-level logistics managers.
+
+---
+
+## Sections
+
+### 1. Navbar (Global Header)
+- **Content & Layout:** Contains a high-resolution SVG logo, a pill-shaped central navigation bar (Shipping, Products, Solutions, Pricing, Resources), and right-aligned action buttons (Login, Get Started).
+- **Visual Hierarchy:** Uses a glassmorphism effect (`backdrop-filter: blur(14px)`) to stay legible over the hero blobs. The "Get Started" button is styled as an outline button to differentiate from the primary CTA.
+- **Responsive Behavior:** On mobile (<900px), navigation links and actions collapse into a hidden drawer toggled by an animated hamburger menu.
+
+### 2. Hero Section
+- **Content & Layout:** Split into a 1.05fr/1fr grid. Left side features an eyebrow tag, H1 heading, subtext, feature tags, and primary CTAs. Right side features a main dashboard visual with floating state cards (WhatsApp Support, Order Counts).
+- **Visual Hierarchy:** The H1 uses a large "Sora" font for impact. Animated background blobs in accent colors (Cyan, Pink, Lime) create depth without distracting from the text.
+- **Interactive Elements:** Features a custom slider UI (`hero-slider-ui`) to rotate between key value propositions.
+
+### 3. Trust Metrics
+- **Content & Layout:** A 4-column grid showing Businesses Onboarded, Pin Code Coverage, Global Reach, and Courier Partners.
+- **Visual Hierarchy:** Each card uses a unique soft gradient background (Lime-soft, Pink-soft, etc.) matching the brand accent system. Includes "Live growth" pulsing indicators and progress bars for visual momentum.
+
+### 4. Benefits (Why Choose Us)
+- **Content & Layout:** Uses a "Mixed Layout"—a large horizontal spotlight card for the primary benefit (Cost Impact) followed by a vertical stack of compact cards for secondary benefits (Speed, Visibility).
+- **Key Elements:** Uses the "Inverted Scoop" design utility on cards to create a distinct, modern tab-like aesthetic.
+
+### 5. Pricing
+- **Content & Layout:** A dark-themed 3-column grid featuring Basic, Pro, and Enterprise tiers.
+- **Visual Hierarchy:** Uses a highlighted center card (Pro tier) with a "Most Popular" badge and a deeper shadow to draw attention.
+- **Interactive Elements:** Cards feature translation and shadow transitions on hover to maintain consistency with the platform's interactive system.
+
+### 6. How It Works
+- **Content & Layout:** A three-step horizontal timeline (Connect, Process, Track).
+- **Visual Hierarchy:** A gradient line connects the steps. Each node is numbered in a high-contrast circle.
+- **Responsive Behavior:** Switches to a vertical layout on mobile, with the connecting line hidden to prioritize readability.
+
+### 7. Product Highlights
+- **Content & Layout:** Alternating Z-pattern rows. Each row combines a module description (e.g., Shipping + Fulfillment) with a high-fidelity visual of the dashboard interface.
+- **Visual Hierarchy:** Focuses on outcome-based chips (e.g., "19,000+ pin codes") to ground features in reality.
+
+### 8. Business Use-cases (Personas)
+- **Content & Layout:** Features a horizontal "Persona Strip" for navigation between user types. Below, a spotlight card details the benefits for the active persona (e.g., D2C brands) including success signals and outcome bullet points.
+- **Visual Hierarchy:** Uses a dark background for the spotlight card to create a strong visual break and emphasize "Enterprise" quality.
+
+### 9. Testimonials
+- **Content & Layout:** A featured seller story with an avatar and full quote, paired with a side stack of shorter quotes for social proof.
+- **Visual Hierarchy:** Uses "Outcome" tags (e.g., "4.9/5 support experience") to highlight measurable success.
+
+### 10. Integrations (Ecosystem)
+- **Content & Layout:** Divided into a "Theme Panel" showing data reliability stats and a "Logo Wall" featuring commerce platforms like Shopify and WooCommerce.
+- **Key Elements:** Fallback avatars for logos ensure the UI remains clean even if images fail to load.
+
+### 11. Final CTA Band
+- **Content & Layout:** A high-intensity gradient band (`--gradient-cta`) containing the final push for conversion.
+- **Visual Hierarchy:** Uses high-contrast white text and a primary "Start Free" button. Includes a "Talk to an expert" secondary link for lower-intent users.
+
+### 12. Footer
+- **Content & Layout:** 4-column layout with brand summary, product links, resources, and social followings.
+- **Visual Hierarchy:** Dark background (`--bg-dark-strong`) signifies the end of the page content. Legal links and copyright are tucked into a bottom row with a border separator.
+
+---
+
+## Design System & Patterns
+
+### Color Palette
+| Category | Token Name | Hex Code | Usage |
+| :--- | :--- | :--- | :--- |
+| **Primary** | `--primary` | `#6b63ff` | Main CTAs, links, active states. |
+| **Supporting** | `--secondary` | `#46237a` | Logo accents, brand-specific UI elements. |
+| **Accents** | `--accent-cyan` | `#73f6ff` | Decorative blobs, highlights, success icons. |
+| **Accents** | `--accent-lime` | `#d8ff56` | Metrics, outcomes, primary pulse color. |
+| **Accents** | `--accent-pink` | `#ff78d6` | Section gradients, decorative highlights. |
+| **Accents** | `--accent-orange`| `#ffb86a` | Warning states, secondary decorative blobs. |
+| **Neutrals** | `--text-dark` | `#171b2b` | Primary body text and headings. |
+| **Neutrals** | `--bg-soft` | `#f3f4f8` | Secondary section backgrounds. |
+| **Neutrals** | `--bg-dark` | `#111319` | Dark mode sections and footer. |
+
+### Typography
+- **Headings:** `Sora` (Sans-serif)
+  - Used for H1-H4, buttons, and navigation.
+  - Characteristics: Modern, high x-height, professional yet friendly.
+- **Body Text:** `Manrope` (Sans-serif)
+  - Used for paragraphs, subtext, and metadata.
+  - Characteristics: Highly legible at small sizes, excellent for technical copy.
+- **Scaling:** Uses `clamp()` for responsive font sizes (e.g., H1 scales from 2rem to 3.35rem).
+
+### Spacing & Grid
+- **Grid System:** Max-width container of `1120px` with `92%` fluid width for mobile.
+- **Section Padding:** Consistent vertical spacing using `clamp(56px, 8vw, 84px)`.
+- **Card Spacing:** Standard `14px` to `20px` gaps in grids.
+
+### Interactive Elements & Transitions
+- **Hover Effects:** Standard `0.25s ease` transition on cards (translation -4px/5px and shadow increase).
+- **Animations:**
+  - `floatBlob`: Subtle 12s infinite loop for background depth.
+  - `pulseLive`: 2s infinite pulse for the "Live growth" indicator.
+  - `hamburger`: Smooth CSS transform-based icon change for mobile menu.
+
+---
+
+## Accessibility & Performance
+- **Contrast:** High-contrast text tokens (`--text-dark` on light, `--text-on-dark` on dark).
+- **Navigation:** ARIA labels on all icon-only buttons (`menu-toggle`, `slider-arrow`).
+- **Semantic HTML:** Strict usage of `<header>`, `<main>`, `<section>`, `<article>`, and `<footer>` for screen reader clarity.
+- **Performance:** Imagery is primarily in `.webp` format for faster loading; critical CSS is optimized for top-of-page rendering.

@@ -1,0 +1,456 @@
+/* Created by Peek from shiprocket.in */
+/* Version: 0.8.9.1 */
+/* Created at: 4/30/2026, 5:59:28 PM */
+/* Learn more: https://trypeek.app */
+
+:root {
+  /* 53 Colors */
+  --color-white: #ffffff;
+  --color-white-smoke: #eeeeee;
+  --color-white-smoke-1: #f0f0f0;
+  --color-white-smoke-2: #f4f4f6;
+  --color-white-smoke-3: #f5f5f5;
+  --color-white-smoke-4: #f7f7f7;
+  --color-gainsboro: #dcdcdc;
+  --color-gainsboro-1: #dddddd;
+  --color-gainsboro-2: #dedede;
+  --color-gainsboro-3: #e3e5e6;
+  --color-lavender: #eaeaef;
+  --color-old-lace: #fff5cb;
+  --color-linen: #ffceec;
+  --color-wheat: #fecda5;
+  --color-silver: #abb8c3;
+  --color-silver-1: #bdbdbd;
+  --color-silver-2: #c9c6c6;
+  --color-khaki: #ffcb70;
+  --color-khaki-1: #e3ff65;
+  --color-khaki-2: #caf880;
+  --color-hot-pink: #f78da7;
+  --color-sky-blue: #8ed1fc;
+  --color-light-green: #7bdcb5;
+  --color-light-green-1: #7adcb4;
+  --color-medium-purple: #9b51e0;
+  --color-medium-purple-1: #735ae5;
+  --color-turquoise: #4aeadc;
+  --color-gray: #787878;
+  --color-gray-1: #808080;
+  --color-gray-2: #7f7f7f;
+  --color-crimson: #cf2e2e;
+  --color-yellow: #d1ff00;
+  --color-yellow-1: #ccee37;
+  --color-orange: #ff6900;
+  --color-orange-1: #fcb900;
+  --color-charcoal-1-300: #000000;
+  --color-charcoal-1-400: #141413;
+  --color-charcoal-1-500: #50504c;
+  --color-charcoal-1-600: #6f6f6a;
+  --color-slate-gray: #717182;
+  --color-dark-turquoise: #0693e3;
+  --color-spring-green: #00d084;
+  --color-dark-violet: #7a00df;
+  --color-dim-gray: #575757;
+  --color-dim-gray-1: #5a5a5a;
+  --color-teal: #005a87;
+  --color-teal-1: #006ba1;
+  --color-teal-2: #007cba;
+  --color-dark-gray: #333333;
+  --color-charcoal: #414141;
+  --color-navy: #020381;
+  --color-midnight-blue: #09074f;
+  --color-midnight-blue-1: #0b0757;
+
+  /* 7 Gradients */
+  --gradient-linear: linear-gradient(146.88deg, rgb(166, 237, 255) 9.67%, rgb(113, 91, 255) 85.4%);
+  --gradient-linear-1: linear-gradient(73.07deg, rgb(126, 205, 245) 18.38%, rgb(108, 255, 177) 68.48%);
+  --gradient-linear-2: linear-gradient(73.47deg, rgb(252, 188, 105) 38.53%, rgb(201, 255, 108) 87.92%);
+  --gradient-linear-3: linear-gradient(86.24deg, rgb(144, 105, 252) 32.94%, rgb(235, 255, 57) 91.34%);
+  --gradient-linear-4: linear-gradient(rgb(46, 45, 45) 0%, rgba(28, 28, 28, 0) 141.96%);
+  --gradient-linear-5: linear-gradient(84.1deg, rgb(255, 255, 255) 5.64%, rgb(163, 252, 83) 128.15%);
+  --gradient-linear-6: linear-gradient(84.1deg, rgb(255, 255, 255) 5.64%, rgb(252, 198, 83) 128.15%);
+}
+
+/* 50 identified type styles */
+/* Typography – Raw tokens (Layer 2) */
+:root {
+  --font-twklausannesemi: TWKLausanneSemi, sans-serif;
+  --font-twklausanne: TWKLausanne, sans-serif;
+  --font-manropemed: ManropeMed, sans-serif;
+  --font-manroperegular: ManropeRegular, sans-serif;
+  --font-twklausanne200: TWKLausanne200, sans-serif;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-22: 22px;
+  --text-24: 24px;
+  --text-32: 32px;
+  --text-38: 38px;
+  --text-46: 46px;
+  --text-52: 52px;
+  --text-54: 54px;
+  --tracking-0-67: 0.67px;
+  --tracking-0-3: 0.3px;
+  --tracking-0-32: 0.32px;
+  --tracking-0-2: 0.2px;
+  --tracking-0-55: 0.55px;
+}
+
+/* Typography – Semantic type styles (Layer 1) */
+.type-h1 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-54);
+  font-weight: 400;
+  line-height: 1.30;
+}
+
+.type-h2 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-52);
+  font-weight: 400;
+  line-height: 1.19;
+}
+
+.type-h2-46 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-46);
+  font-weight: 400;
+  line-height: 1.41;
+}
+
+.type-h2-46-400 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-46);
+  font-weight: 400;
+  line-height: 1.41;
+}
+
+.type-h3 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-38);
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.type-h3-38 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-38);
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.type-h4 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-32);
+  font-weight: 500;
+  line-height: 1.44;
+}
+
+.type-h4-32 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-32);
+  font-weight: 500;
+  line-height: 1.44;
+}
+
+.type-h3-32 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-32);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.type-heading {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-24);
+  font-weight: 700;
+  line-height: 1.33;
+}
+
+.type-h3-24 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-24);
+  font-weight: 400;
+  line-height: 1.33;
+}
+
+.type-h5 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-22);
+  font-weight: 500;
+  line-height: 1.27;
+}
+
+.type-h3-22 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-22);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.type-h3-20 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-20);
+  font-weight: 400;
+  line-height: 1.20;
+  letter-spacing: var(--tracking-0-67);
+}
+
+.type-h4-18 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-18);
+  font-weight: 500;
+  line-height: 1.56;
+}
+
+.type-h3-18 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-18);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: var(--tracking-0-3);
+}
+
+.type-h3-18-400 {
+  font-family: var(--font-twklausannesemi);
+  font-size: var(--text-18);
+  font-weight: 400;
+  line-height: 1.56;
+}
+
+.type-body {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-18);
+  font-weight: 400;
+  line-height: 1.67;
+}
+
+.type-link {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-18);
+  font-weight: 400;
+  line-height: 1.44;
+}
+
+.type-body-16 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-16);
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+.type-link-16 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-16);
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-link-16-400 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.63;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.63;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.type-body-16-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.type-link-15 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-15);
+  font-weight: 400;
+  line-height: 1.20;
+  letter-spacing: var(--tracking-0-32);
+}
+
+.type-link-15-400 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-15);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-small-body {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-14 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: var(--tracking-0-2);
+}
+
+.type-small-body-14 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-small-body-14-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.29;
+}
+
+.type-small-body-14-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-14-400 {
+  font-family: var(--font-twklausanne200);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-link-14 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-13 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-13);
+  font-weight: 400;
+  line-height: 1.62;
+}
+
+.type-caption {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-13);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-13-400 {
+  font-family: var(--font-twklausanne200);
+  font-size: var(--text-13);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-13-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-13);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-13-400 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-13);
+  font-weight: 400;
+  line-height: 1.62;
+}
+
+.type-link-12 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.type-body-12 {
+  font-family: var(--font-manroperegular);
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: var(--tracking-0-55);
+}
+
+.type-link-12-400 {
+  font-family: var(--font-twklausanne);
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: 1.17;
+}
+
+.type-link-12-400 {
+  font-family: var(--font-manropemed);
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.type-body-12-200 {
+  font-family: var(--font-twklausanne200);
+  font-size: var(--text-12);
+  font-weight: 200;
+  line-height: 1.40;
+}
+
