@@ -43,36 +43,52 @@
     </div>
   </header>
 
-  <main class="auth-page">
-    <div class="auth-container profile-demo-layout">
-      <div class="auth-card auth-card--signup">
-        <h1 class="auth-card-signup-heading">My orders</h1>
-        <p class="auth-terms" id="ordersIntro">Loading your orders from InsForge…</p>
-        <p id="ordersError" class="auth-inline-error" role="alert" hidden></p>
-        <div class="orders-table-wrap">
-          <table class="orders-table" id="ordersTable" hidden>
-            <thead>
-              <tr>
-                <th scope="col">Order</th>
-                <th scope="col">Status</th>
-                <th scope="col">Courier</th>
-                <th scope="col">Created</th>
-                <th scope="col">Track</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTableBody"></tbody>
-          </table>
+  <main class="account-dashboard-page">
+    <div class="container account-dashboard">
+      <aside class="account-dashboard__sidebar" aria-label="Account sections">
+        <p class="account-dashboard__nav-label">Account</p>
+        <nav aria-label="Account">
+          <a href="profile.html" class="account-dashboard__link">Overview</a>
+          <a href="orders.html" class="account-dashboard__link account-dashboard__link--active" aria-current="page">Order history</a>
+          <a href="shipping.html" class="account-dashboard__link">Track shipment</a>
+          <a href="profile.html#settings" class="account-dashboard__link">Profile settings</a>
+          <a href="index.html" class="account-dashboard__link">Home</a>
+        </nav>
+      </aside>
+      <div class="account-dashboard__main">
+        <div class="auth-card auth-card--signup account-dashboard__card">
+          <h1 class="auth-card-signup-heading">My orders</h1>
+          <p id="ordersError" class="auth-inline-error" role="alert" hidden></p>
+          <div id="ordersEmptyState" class="orders-empty-card" hidden>
+            <h2 class="orders-empty-card__title" id="ordersEmptyTitle"></h2>
+            <p class="orders-empty-card__text" id="ordersEmptyText" hidden></p>
+            <div class="orders-empty-card__actions">
+              <a href="login.html" class="btn btn-outline" id="ordersEmptyLinkLogin">Sign in</a>
+              <a href="shipping.html" class="btn btn-primary" id="ordersEmptyLinkShip">Track shipment</a>
+            </div>
+          </div>
+          <div class="orders-table-wrap">
+            <table class="orders-table" id="ordersTable" hidden>
+              <thead>
+                <tr>
+                  <th scope="col">Order</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Courier</th>
+                  <th scope="col">Created</th>
+                  <th scope="col">Track</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
         </div>
-        <p class="auth-footer-text auth-footer-text--tight">
-          <a href="profile.html">Profile</a> · <a href="shipping.html">Track shipment</a> · <a href="index.html">Home</a>
-        </p>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <p>© 2026 Shiprocket Style Demo. Built for learning.</p>
+      <p>© 2026 Shiprocket. All rights reserved.</p>
     </div>
   </footer>
 

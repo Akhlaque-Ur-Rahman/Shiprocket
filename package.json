@@ -3,6 +3,7 @@
   "private": true,
   "description": "Static Shiprocket-style demo with optional InsForge backend",
   "scripts": {
+    "build": "node --check auth-demo.js && node --check insforge-auth-client.js && node --check insforge-client.js && node --check insforge-config.js && node --check orders.js && node --check script.js && node --check shipping.js",
     "insforge:anon-token": "node scripts/print-insforge-anon-token.cjs",
     "serve": "npx --yes serve ."
   }

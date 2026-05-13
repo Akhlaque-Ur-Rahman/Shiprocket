@@ -28,21 +28,6 @@
     return typeof window.insforgeAuthConfigured === "function" && window.insforgeAuthConfigured();
   }
 
-  function wireAuthDialog() {
-    var dialog = document.getElementById("authDemoDialog");
-    var closeBtn = document.getElementById("authDemoDialogClose");
-    if (!dialog || !closeBtn) return;
-    closeBtn.addEventListener("click", function () {
-      if (dialog.open) dialog.close();
-    });
-  }
-
-  function openAuthDialog() {
-    var dialog = document.getElementById("authDemoDialog");
-    if (!dialog || typeof dialog.showModal !== "function") return;
-    dialog.showModal();
-  }
-
   function showFieldError(errEl, input, msg) {
     if (errEl) {
       errEl.textContent = msg;
@@ -64,6 +49,27 @@
     return /^https?:\/\//i.test(t) || /^www\./i.test(t) || /:\/\/\S/.test(t);
   }
 
+  function profileInitials(displayName, email) {
+    var s = (displayName || "").trim() || (email || "").split("@")[0] || "U";
+    var parts = s.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase().slice(0, 2);
+    }
+    return s.slice(0, 2).toUpperCase();
+  }
+
+  function setProfileSummary(displayName, email) {
+    var wrap = document.getElementById("profileSummary");
+    var av = document.getElementById("profileSummaryAvatar");
+    var nm = document.getElementById("profileSummaryName");
+    var em = document.getElementById("profileSummaryEmail");
+    if (!wrap || !av || !nm || !em) return;
+    av.textContent = profileInitials(displayName, email);
+    nm.textContent = (displayName && String(displayName).trim()) || (email ? email.split("@")[0] : "User");
+    em.textContent = email || "";
+    wrap.hidden = false;
+  }
+
   function wireLoginEmailForm() {
     var form = document.getElementById("loginBusinessForm");
     var emailEl = document.getElementById("loginEmail");
@@ -77,7 +83,7 @@
       clearFieldError(err, passEl);
       var email = emailEl.value.trim();
       var password = passEl.value;
-      var minLen = useRealInsForgeAuth() ? 8 : 4;
+      var minLen = 8;
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         showFieldError(err, emailEl, "Enter a valid work email.");
         return;
@@ -103,7 +109,7 @@
         displayName: display,
         email: email,
       });
-      openAuthDialog();
+      window.location.href = "profile.html";
     });
   }
 
@@ -112,6 +118,7 @@
     var nameEl = document.getElementById("signupName");
     var emailEl = document.getElementById("signupEmail");
     var phoneEl = document.getElementById("signupPhone");
+    var passEl = document.getElementById("signupPassword");
     var err = document.getElementById("signupFormError");
     if (!form || !nameEl || !emailEl || !phoneEl || !err) return;
 
@@ -120,6 +127,7 @@
       clearFieldError(err, nameEl);
       clearFieldError(err, emailEl);
       clearFieldError(err, phoneEl);
+      if (passEl) clearFieldError(err, passEl);
       var name = nameEl.value.trim();
       var email = emailEl.value.trim();
       var digits = phoneEl.value.replace(/\D/g, "");
@@ -136,9 +144,9 @@
         return;
       }
       if (useRealInsForgeAuth()) {
-        var pw = (document.getElementById("signupPassword") || {}).value || "";
+        var pw = passEl ? passEl.value : "";
         if (!pw || pw.length < 8) {
-          showFieldError(err, emailEl, "Password must be at least 8 characters for InsForge.");
+          showFieldError(err, passEl || emailEl, "Password must be at least 8 characters.");
           return;
         }
         var blocked = false;
@@ -146,11 +154,7 @@
           .insforgeAuthRegister(email, pw, name)
           .then(function (data) {
             if (data && data.requireEmailVerification) {
-              showFieldError(
-                err,
-                emailEl,
-                "Verify your email before signing in. InsForge sent a link or code depending on your project settings."
-              );
+              showFieldError(err, emailEl, "Confirm your email to sign in.");
               blocked = true;
               return null;
             }
@@ -160,8 +164,8 @@
                 {
                   user_id: uid,
                   order_ref: "ORD-" + Date.now().toString(36).toUpperCase(),
-                  status_text: "Packed at seller hub (demo)",
-                  courier: "Blue Dart (demo)",
+                  status_text: "Packed at seller hub",
+                  courier: "Blue Dart",
                 },
               ]);
             }
@@ -182,7 +186,7 @@
         email: email,
         phone: digits,
       });
-      openAuthDialog();
+      window.location.href = "profile.html";
     });
   }
 
@@ -211,11 +215,11 @@
       clearFieldError(err, input);
       var raw = input.value.trim();
       if (!raw) {
-        showFieldError(err, input, "Enter a value to track on the shipping page.");
+        showFieldError(err, input, "Enter a value.");
         return;
       }
       if (isLikelyPastedUrl(raw)) {
-        showFieldError(err, input, "Enter an AWB, Order ID, or mobile number, not a website link.");
+        showFieldError(err, input, "Use AWB, Order ID, or mobile.");
         return;
       }
       var selected = document.querySelector('input[name="login-track-type"]:checked');
@@ -224,7 +228,7 @@
       if (tabKey === "mobile") {
         value = raw.replace(/\D/g, "");
         if (value.length !== 10) {
-          showFieldError(err, input, "Enter a valid 10 digit mobile number.");
+          showFieldError(err, input, "Enter 10 digits.");
           return;
         }
       }
@@ -239,9 +243,9 @@
     var intro = document.getElementById("profileIntro");
     var dl = document.getElementById("profileDl");
     if (intro) {
-      intro.textContent =
-        "Values below are stored in sessionStorage for this browser only. No server account is created.";
+      intro.textContent = "You are signed in on this device for this preview build.";
     }
+    setProfileSummary(sess.displayName, sess.email);
     if (dl) {
       dl.textContent = "";
       function addRow(label, val) {
@@ -256,7 +260,6 @@
       addRow("Display name", sess.displayName);
       addRow("Email", sess.email);
       addRow("Phone", sess.phone);
-      addRow("Flow", sess.flow);
     }
   }
 
@@ -264,8 +267,10 @@
     var intro = document.getElementById("profileIntro");
     var dl = document.getElementById("profileDl");
     if (intro) {
-      intro.textContent = "Loaded from InsForge for the signed-in user.";
+      intro.textContent = "";
+      intro.hidden = true;
     }
+    setProfileSummary(user.name || user.email || "", user.email || "");
     if (dl) {
       dl.textContent = "";
       function addRow(label, val) {
@@ -277,13 +282,28 @@
         dl.appendChild(dt);
         dl.appendChild(dd);
       }
-      addRow("User id", user.id);
+      addRow("Account ID", user.id);
       addRow("Email", user.email);
       addRow("Name", user.name || "");
       addRow("Email verified", user.emailVerified != null ? String(user.emailVerified) : "");
     }
     var nameInput = document.getElementById("profileNameInput");
     if (nameInput) nameInput.value = user.name || "";
+  }
+
+  function maybeProfileShipmentsHint() {
+    var hint = document.getElementById("profileShipmentsHint");
+    if (!hint) return;
+    if (!window.insforgeAuthHasSession || !window.insforgeAuthHasSession()) return;
+    if (typeof window.insforgeQueryRecords !== "function") return;
+    window
+      .insforgeQueryRecords("user_orders", { limit: "5" })
+      .then(function (rows) {
+        var list = Array.isArray(rows) ? rows : [];
+        if (list.length === 0) return;
+        hint.hidden = false;
+      })
+      .catch(function () {});
   }
 
   function wireProfileGate() {
@@ -305,15 +325,18 @@
     }
 
     if (useRealInsForgeAuth() && window.insforgeAuthHasSession && window.insforgeAuthHasSession()) {
+      var settingsSec = document.getElementById("settings");
+      if (settingsSec) settingsSec.hidden = false;
+      var insPanel = document.getElementById("profileInsForgePanel");
+      if (insPanel) insPanel.hidden = false;
       window.insforgeAuthGetCurrent().then(function (data) {
         if (!data || !data.user) {
           window.location.href = "login.html";
           return;
         }
         fillProfileInsForge(data.user);
+        maybeProfileShipmentsHint();
       });
-      var insPanel = document.getElementById("profileInsForgePanel");
-      if (insPanel) insPanel.hidden = false;
       bindLogout();
       if (saveBtn) {
         saveBtn.addEventListener("click", function () {
@@ -351,6 +374,8 @@
       return;
     }
     fillProfileDemo(getDemoSession());
+    var settingsSec = document.getElementById("settings");
+    if (settingsSec) settingsSec.hidden = true;
     var insPanel = document.getElementById("profileInsForgePanel");
     if (insPanel) insPanel.hidden = true;
     bindLogout();
@@ -380,7 +405,6 @@
     }
   });
 
-  wireAuthDialog();
   wireLoginEmailForm();
   wireSignupForm();
   wireLoginTrackNow();

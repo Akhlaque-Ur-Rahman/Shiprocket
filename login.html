@@ -196,16 +196,16 @@
       <div class="auth-card-wrapper">
         <div class="auth-card">
           <h2>For Business</h2>
-          <p class="auth-terms" style="margin-bottom: 12px;">Sign in with the email and password you used at sign up. New here? <a href="signup.html">Create an account</a>.</p>
+          <p class="auth-terms" style="margin-bottom: 12px;"><a href="signup.html">Create an account</a></p>
           <form id="loginBusinessForm" class="auth-form" novalidate>
             <label class="auth-label" for="loginEmail">Work email</label>
             <input type="email" id="loginEmail" name="email" class="phone-input auth-input-full" placeholder="Work email" autocomplete="email" aria-describedby="loginBusinessError">
             <label class="auth-label" for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" name="password" class="phone-input auth-input-full" placeholder="Password" autocomplete="current-password" aria-describedby="loginBusinessError">
+            <input type="password" id="loginPassword" name="password" class="phone-input auth-input-full" placeholder="At least 8 characters" autocomplete="current-password" aria-describedby="loginBusinessError">
             <p id="loginBusinessError" class="auth-inline-error" role="alert" hidden></p>
             <button type="submit" class="auth-btn-primary">Continue</button>
           </form>
-          <p class="auth-terms"><a href="#">Forgot password?</a> (demo: use InsForge reset if enabled in your project.)</p>
+          <p class="auth-terms"><a href="#">Forgot password?</a></p>
 
           <div class="auth-divider">OR</div>
 
@@ -259,21 +259,6 @@
     </div>
   </main>
 
-  <dialog id="authDemoDialog" class="auth-demo-dialog" aria-labelledby="authDemoTitle">
-    <button type="button" class="auth-demo-dialog__close" id="authDemoDialogClose" aria-label="Close">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-    <div class="auth-demo-dialog__inner">
-      <h2 id="authDemoTitle" class="auth-demo-dialog__title">Signed in</h2>
-      <p id="authDemoText" class="auth-demo-dialog__text">You can open your orders or continue to the homepage.</p>
-      <div class="auth-demo-dialog__actions">
-        <a href="orders.html" class="btn btn-outline auth-demo-dialog__cta">Orders</a>
-        <a href="profile.html" class="btn btn-outline auth-demo-dialog__cta">Profile</a>
-        <a href="index.html" class="btn btn-primary auth-demo-dialog__cta">Go to home</a>
-      </div>
-    </div>
-  </dialog>
-
   <footer class="site-footer">
     <div class="container footer-columns">
       <div class="footer-brand-col">
@@ -316,7 +301,7 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>© 2026 Shiprocket Style Demo. Built for learning.</p>
+      <p>© 2026 Shiprocket. All rights reserved.</p>
       <div class="footer-legal">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms</a>

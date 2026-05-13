@@ -37,17 +37,17 @@
     awb: {
       idLabel: "Reference",
       statusText: "Latest scan: out for delivery",
-      partner: "Blue Dart (demo)",
+      partner: "Blue Dart",
     },
     order: {
       idLabel: "Order ID",
-      statusText: "Latest update: packed at seller hub (demo)",
-      partner: "Delhivery (demo)",
+      statusText: "Latest update: packed at seller hub",
+      partner: "Delhivery",
     },
     mobile: {
       idLabel: "Mobile",
-      statusText: "Multi-order lookup: 3 active parcels (demo)",
-      partner: "Xpressbees (demo)",
+      statusText: "Multi-order lookup: 3 active parcels",
+      partner: "Xpressbees",
     },
   };
 
@@ -106,16 +106,13 @@
     if (!mockFallbackNote) return;
     if (mode === "no_match") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent =
-        "No demo shipment matched that value. The steps below are a generic sample only, not a real scan for your input. On the Order ID tab try ORD-2026-1001, ORD-2026-2040, ORD-2026-3050, or ORD-2026-4011.";
+      mockFallbackNote.textContent = "No match. Sample timeline.";
     } else if (mode === "offline") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent =
-        "Demo database is not connected in the browser, so this timeline is a built-in sample only.";
+      mockFallbackNote.textContent = "Sample timeline.";
     } else if (mode === "error") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent =
-        "Could not load demo rows. This timeline is a built-in sample only. Check the network or InsForge settings, then try again.";
+      mockFallbackNote.textContent = "Unable to load.";
     } else {
       mockFallbackNote.hidden = true;
       mockFallbackNote.textContent = "";
@@ -317,19 +314,19 @@
   trackBtn.addEventListener("click", () => {
     const raw = input.value.trim();
     if (!raw) {
-      showError("Please enter a value to see the demo timeline.");
+      showError("Enter a value.");
       return;
     }
 
     if (isLikelyPastedUrl(raw)) {
-      showError("Enter an AWB, Order ID, or 10 digit mobile number, not a website link.");
+      showError("Use AWB, Order ID, or mobile.");
       return;
     }
 
     if (activeTabKey === "mobile") {
       const digits = raw.replace(/\D/g, "");
       if (digits.length !== 10) {
-        showError("Enter a valid 10 digit mobile number for this demo.");
+        showError("Enter 10 digits.");
         return;
       }
       void tryInsForgeThenMock(digits);

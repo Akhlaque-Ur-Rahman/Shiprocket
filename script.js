@@ -359,6 +359,15 @@ document.querySelectorAll(".faq-question").forEach((button) => {
     }
   });
 
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const trigger = document.getElementById("demoNavUserTrigger");
+    const dd = document.getElementById("demoNavUserDropdown");
+    if (!trigger || !dd || dd.hidden) return;
+    dd.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+  });
+
   window.__shiprocketDemoNavRefresh = refreshDemoNav;
   refreshDemoNav();
 })();

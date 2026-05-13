@@ -32,7 +32,7 @@ node scripts/print-insforge-anon-token.cjs
 
 4. Edit [`insforge-config.js`](../insforge-config.js): set `enabled` to `true`, set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`.
 
-Optional: keep secrets out of git by copying `insforge-config.example.js` to `insforge-config.local.js`, filling values, adding `<script src="insforge-config.local.js"></script>` before `insforge-client.js` on pages that use InsForge (`shipping.html`, `login.html`, `signup.html`, `account.html`, `profile.html`, `orders.html`, `index.html`), and leaving the committed `insforge-config.js` with `enabled: false` if you prefer.
+Optional: keep secrets out of git by copying `insforge-config.example.js` to `insforge-config.local.js` (gitignored), filling values, adding `<script src="insforge-config.local.js"></script>` **before** `insforge-client.js` on pages that use InsForge. The committed [`insforge-config.js`](../insforge-config.js) ships with `enabled: false` and placeholder `baseUrl` / `anonAccessToken` so the repo stays token-free; turn InsForge on only in your local file or local edits you do not commit.
 
 ## Email sign up and sign in (InsForge Auth REST)
 

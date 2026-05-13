@@ -43,29 +43,55 @@
     </div>
   </header>
 
-  <main class="auth-page">
-    <div class="auth-container profile-demo-layout">
-      <div class="auth-card auth-card--signup">
-        <h1 class="auth-card-signup-heading">Your profile</h1>
-        <p class="auth-terms" id="profileIntro"></p>
-        <dl class="profile-demo-dl" id="profileDl"></dl>
-        <div id="profileInsForgePanel" class="profile-insforge-panel" hidden>
-          <label class="auth-label" for="profileNameInput">Display name</label>
-          <input type="text" id="profileNameInput" class="phone-input auth-input-full" placeholder="Your name" autocomplete="name">
-          <p id="profileSaveError" class="auth-inline-error" role="alert" hidden></p>
-          <button type="button" class="auth-btn-primary" id="profileSaveNameBtn" style="margin-top: 12px;">Save name</button>
+  <main class="account-dashboard-page">
+    <div class="container account-dashboard">
+      <aside class="account-dashboard__sidebar" aria-label="Account sections">
+        <p class="account-dashboard__nav-label">Account</p>
+        <nav aria-label="Account">
+          <a href="profile.html" class="account-dashboard__link account-dashboard__link--active" aria-current="page">Overview</a>
+          <a href="orders.html" class="account-dashboard__link">Order history</a>
+          <a href="shipping.html" class="account-dashboard__link">Track shipment</a>
+          <a href="profile.html#settings" class="account-dashboard__link">Profile settings</a>
+          <a href="index.html" class="account-dashboard__link">Home</a>
+        </nav>
+        <div id="profileShipmentsHint" class="account-dashboard__hint" hidden>
+          <p class="account-dashboard__hint-title">Shipments</p>
+          <div class="account-dashboard__hint-actions">
+            <a href="orders.html">Order history</a>
+            <a href="shipping.html">Track shipment</a>
+          </div>
         </div>
-        <button type="button" class="auth-btn-primary auth-btn-primary--solid" id="profileLogoutBtn">Log out</button>
-        <p class="auth-footer-text auth-footer-text--tight">
-          <a href="orders.html">My orders</a> · <a href="shipping.html">Track shipment</a> · <a href="index.html">Home</a>
-        </p>
+      </aside>
+      <div class="account-dashboard__main">
+        <div class="auth-card auth-card--signup account-profile-card account-dashboard__card">
+          <h1 class="auth-card-signup-heading">Your profile</h1>
+          <div class="profile-summary" id="profileSummary" hidden>
+            <span class="profile-summary__avatar" id="profileSummaryAvatar" aria-hidden="true"></span>
+            <div class="profile-summary__meta">
+              <p class="profile-summary__name" id="profileSummaryName"></p>
+              <p class="profile-summary__email" id="profileSummaryEmail"></p>
+            </div>
+          </div>
+          <p class="auth-terms" id="profileIntro" hidden></p>
+          <dl class="account-details-grid" id="profileDl"></dl>
+          <section id="settings" aria-labelledby="settingsHeading" hidden>
+            <h2 id="settingsHeading" class="account-dashboard__settings-heading">Profile settings</h2>
+            <div id="profileInsForgePanel" class="profile-insforge-panel" hidden>
+              <label class="auth-label" for="profileNameInput">Display name</label>
+              <input type="text" id="profileNameInput" class="phone-input auth-input-full" placeholder="Your name" autocomplete="name">
+              <p id="profileSaveError" class="auth-inline-error" role="alert" hidden></p>
+              <button type="button" class="auth-btn-primary" id="profileSaveNameBtn" style="margin-top: 12px;">Save name</button>
+            </div>
+          </section>
+          <button type="button" class="auth-btn-primary auth-btn-primary--solid" id="profileLogoutBtn">Log out</button>
+        </div>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <p>© 2026 Shiprocket Style Demo. Built for learning.</p>
+      <p>© 2026 Shiprocket. All rights reserved.</p>
     </div>
   </footer>
 
