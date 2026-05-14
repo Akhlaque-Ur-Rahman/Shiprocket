@@ -209,8 +209,14 @@
                 <input type="tel" id="signupPhone" name="phone" class="phone-input" placeholder="Phone Number" autocomplete="tel" inputmode="numeric" maxlength="14" aria-describedby="signupFormError">
               </div>
             </div>
+            <div id="signupOtpStep" class="signup-otp-step" hidden>
+              <p id="signupOtpLead" class="auth-terms" style="margin-bottom: 12px;">We sent a 6 digit code to your email. Enter it below, then tap Verify.</p>
+              <label class="auth-label" for="signupOtpCode">Email code</label>
+              <input type="text" id="signupOtpCode" name="otp" class="phone-input auth-input-full" inputmode="numeric" maxlength="6" autocomplete="one-time-code" aria-describedby="signupFormError" placeholder="000000">
+              <button type="button" class="auth-btn-primary auth-btn-primary--solid" id="signupVerifyOtpBtn" style="margin-top: 14px;">Verify and continue</button>
+            </div>
             <p id="signupFormError" class="auth-inline-error" role="alert" hidden></p>
-            <button type="submit" class="auth-btn-primary auth-btn-primary--solid">Create Account</button>
+            <button type="submit" id="signupSubmitBtn" class="auth-btn-primary auth-btn-primary--solid">Create Account</button>
           </form>
           <p class="auth-terms">
             By signing up, I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>

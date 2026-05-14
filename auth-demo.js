@@ -245,12 +245,78 @@
     var err = document.getElementById("signupFormError");
     if (!form || !nameEl || !emailEl || !phoneEl || !err) return;
 
+    var otpStep = document.getElementById("signupOtpStep");
+    var otpInput = document.getElementById("signupOtpCode");
+    var otpBtn = document.getElementById("signupVerifyOtpBtn");
+    var submitBtn = document.getElementById("signupSubmitBtn");
+    var fieldStack = form.querySelector(".auth-field-stack");
+    var signupOtpPendingEmail = "";
+
+    function setSignupWaitingOtp(active, em) {
+      signupOtpPendingEmail = active ? String(em || "").trim() : "";
+      if (otpStep) otpStep.hidden = !active;
+      if (submitBtn) submitBtn.hidden = !!active;
+      if (fieldStack) {
+        var inputs = fieldStack.querySelectorAll("input");
+        var j;
+        for (j = 0; j < inputs.length; j++) {
+          inputs[j].disabled = !!active;
+        }
+      }
+      if (active && otpInput) {
+        otpInput.value = "";
+        clearFieldError(err, otpInput);
+        requestAnimationFrame(function () {
+          otpInput.focus();
+        });
+      }
+    }
+
+    function runSignupEmailOtpVerify() {
+      if (!signupOtpPendingEmail) return;
+      var rawOtp = otpInput ? otpInput.value.trim() : "";
+      var code = rawOtp.replace(/\D/g, "");
+      clearFieldError(err, otpInput);
+      if (code.length !== 6) {
+        showFieldError(err, otpInput || emailEl, "Enter the 6 digit code from your email.");
+        return;
+      }
+      if (typeof window.insforgeAuthVerifyEmailCode !== "function") {
+        showFieldError(err, emailEl, "Verification is not available. Refresh the page.");
+        return;
+      }
+      window
+        .insforgeAuthVerifyEmailCode(signupOtpPendingEmail, code)
+        .then(function () {
+          if (typeof window.__shiprocketDemoNavRefresh === "function") {
+            window.__shiprocketDemoNavRefresh();
+          }
+          window.location.href = "orders.html";
+        })
+        .catch(function (ex) {
+          showFieldError(err, otpInput || emailEl, (ex && ex.message) || "Invalid or expired code.");
+        });
+    }
+
+    if (otpBtn) {
+      otpBtn.addEventListener("click", runSignupEmailOtpVerify);
+    }
+    if (otpInput) {
+      otpInput.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          runSignupEmailOtpVerify();
+        }
+      });
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       clearFieldError(err, nameEl);
       clearFieldError(err, emailEl);
       clearFieldError(err, phoneEl);
       if (passEl) clearFieldError(err, passEl);
+      if (otpInput) clearFieldError(err, otpInput);
       var name = nameEl.value.trim();
       var email = emailEl.value.trim();
       var digits = phoneEl.value.replace(/\D/g, "");
@@ -277,7 +343,13 @@
           .insforgeAuthRegister(email, pw, name)
           .then(function (data) {
             if (data && data.requireEmailVerification) {
-              showFieldError(err, emailEl, "Confirm your email to sign in.");
+              clearFieldError(err, emailEl);
+              clearFieldError(err, otpInput);
+              if (err) {
+                err.textContent = "";
+                err.hidden = true;
+              }
+              setSignupWaitingOtp(true, email);
               blocked = true;
               return;
             }
@@ -287,6 +359,7 @@
             window.location.href = "orders.html";
           })
           .catch(function (ex) {
+            setSignupWaitingOtp(false, "");
             showFieldError(err, emailEl, (ex && ex.message) || "Sign up failed.");
           });
         return;

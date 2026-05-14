@@ -50,7 +50,7 @@ When `enabled` is `true` and `baseUrl` is set, the site calls InsForge native au
 
 Implementation files: [`insforge-auth-client.js`](../insforge-auth-client.js), [`auth-demo.js`](../auth-demo.js), [`insforge-client.js`](../insforge-client.js) (database calls use the user access token when present, otherwise the anon token for public `demo_shipments` reads).
 
-If your InsForge project requires **email verification**, the register response can set `requireEmailVerification: true` and omit tokens until the user verifies. The UI shows a short message in that case.
+If your InsForge project requires **email verification**, the register response can set `requireEmailVerification: true` and omit tokens until the user verifies. On [`signup.html`](../signup.html), after **Create Account**, an **email code** field and **Verify and continue** appear: the app calls `POST /api/auth/email/verify` with the 6 digit code (same `client_type` as other auth calls). After success, the session is stored like a normal sign in.
 
 ## User orders table
 

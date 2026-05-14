@@ -109,6 +109,29 @@
     return data;
   };
 
+  /**
+   * After sign-up when the project sends a 6 digit email code (no magic link).
+   * POST /api/auth/email/verify — see https://docs.insforge.dev/api-reference/client/verify-email-with-code
+   */
+  window.insforgeAuthVerifyEmailCode = async function insforgeAuthVerifyEmailCode(email, otp) {
+    var b = baseUrl();
+    if (!b) throw new Error("InsForge baseUrl missing");
+    var code = String(otp || "").replace(/\D/g, "");
+    if (code.length !== 6) throw new Error("Enter the 6 digit code from your email.");
+    var res = await fetch(b + "/api/auth/email/verify?" + authQuery(), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email: String(email || "").trim(), otp: code }),
+    });
+    var data = await parseJsonSafe(res);
+    if (!res.ok) {
+      var msg = (data && (data.message || data.error)) || res.statusText;
+      throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
+    }
+    persistSession(data.accessToken, data.refreshToken, data.user);
+    return data;
+  };
+
   window.insforgeAuthSignIn = async function insforgeAuthSignIn(email, password) {
     var b = baseUrl();
     if (!b) throw new Error("InsForge baseUrl missing");
