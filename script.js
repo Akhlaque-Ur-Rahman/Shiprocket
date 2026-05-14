@@ -269,6 +269,7 @@ document.querySelectorAll(".faq-question").forEach((button) => {
     trigger.className = "nav-demo-user-trigger";
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-haspopup", "true");
+    trigger.setAttribute("aria-controls", "demoNavUserDropdown");
 
     const av = document.createElement("span");
     av.className = "nav-demo-user-avatar";
@@ -348,24 +349,74 @@ document.querySelectorAll(".faq-question").forEach((button) => {
     if (!trigger || !dd) return;
     if (e.target.closest("#demoNavUserTrigger")) {
       e.preventDefault();
-      const open = dd.hidden === false;
-      dd.hidden = open;
-      trigger.setAttribute("aria-expanded", String(!open));
+      const wasOpen = dd.hidden === false;
+      dd.hidden = wasOpen;
+      trigger.setAttribute("aria-expanded", String(!wasOpen));
+      if (!wasOpen) {
+        const first = dd.querySelector("a, button");
+        if (first) {
+          requestAnimationFrame(() => first.focus());
+        }
+      }
       return;
     }
     if (!dd.hidden && !dd.contains(e.target) && !trigger.contains(e.target)) {
+      const hadFocus = dd.contains(document.activeElement);
       dd.hidden = true;
       trigger.setAttribute("aria-expanded", "false");
+      if (hadFocus) trigger.focus();
     }
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
     const trigger = document.getElementById("demoNavUserTrigger");
     const dd = document.getElementById("demoNavUserDropdown");
-    if (!trigger || !dd || dd.hidden) return;
-    dd.hidden = true;
-    trigger.setAttribute("aria-expanded", "false");
+    if (!trigger || !dd) return;
+
+    if (e.key === "Escape") {
+      if (dd.hidden) return;
+      dd.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.focus();
+      return;
+    }
+
+    const items = Array.from(dd.querySelectorAll("a, button")).filter((el) => !el.disabled);
+    if (!items.length) return;
+
+    if (dd.hidden && e.key === "ArrowDown" && document.activeElement === trigger) {
+      e.preventDefault();
+      dd.hidden = false;
+      trigger.setAttribute("aria-expanded", "true");
+      items[0].focus();
+      return;
+    }
+
+    if (dd.hidden) return;
+
+    const inMenu = items.includes(document.activeElement);
+    if (!inMenu && document.activeElement !== trigger) return;
+
+    if (e.key === "ArrowDown" && (inMenu || document.activeElement === trigger)) {
+      e.preventDefault();
+      if (document.activeElement === trigger) {
+        items[0].focus();
+        return;
+      }
+      const i = items.indexOf(document.activeElement);
+      const next = items[Math.min(i + 1, items.length - 1)];
+      next.focus();
+    } else if (e.key === "ArrowUp" && inMenu) {
+      e.preventDefault();
+      const i = items.indexOf(document.activeElement);
+      if (i <= 0) {
+        trigger.focus();
+        dd.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+        return;
+      }
+      items[i - 1].focus();
+    }
   });
 
   window.__shiprocketDemoNavRefresh = refreshDemoNav;

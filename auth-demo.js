@@ -2,6 +2,10 @@
   var DEMO_SESSION_KEY = "shiprocket_demo_session";
   // Academic demo only: plain passwords in localStorage. Production uses InsForge auth.
   var DEMO_REGISTRY_KEY = "shiprocket_demo_registry";
+  /** Shared password for every account in the local demo registry (seeded + one-time migrated legacy rows). */
+  var DEMO_SHARED_PASSWORD = "DemoPass123";
+  /** Once per browser: align existing registry passwords to DEMO_SHARED_PASSWORD. New signups after that keep the password they chose. */
+  var DEMO_PW_UNIFY_STORAGE_KEY = "shiprocket_demo_password_unified_v1";
 
   function readRegistry() {
     try {
@@ -16,6 +20,33 @@
 
   function writeRegistry(list) {
     localStorage.setItem(DEMO_REGISTRY_KEY, JSON.stringify(list));
+  }
+
+  function normalizeDemoRegistryPasswords() {
+    try {
+      if (localStorage.getItem(DEMO_PW_UNIFY_STORAGE_KEY)) return;
+      var list = readRegistry();
+      if (!list.length) {
+        localStorage.setItem(DEMO_PW_UNIFY_STORAGE_KEY, "1");
+        return;
+      }
+      var changed = false;
+      var next = list.map(function (ac) {
+        if (!ac || typeof ac !== "object") return ac;
+        if (ac.password === DEMO_SHARED_PASSWORD) return ac;
+        changed = true;
+        var o = {};
+        for (var k in ac) {
+          if (Object.prototype.hasOwnProperty.call(ac, k)) o[k] = ac[k];
+        }
+        o.password = DEMO_SHARED_PASSWORD;
+        return o;
+      });
+      if (changed) writeRegistry(next);
+      localStorage.setItem(DEMO_PW_UNIFY_STORAGE_KEY, "1");
+    } catch (e) {
+      console.warn("normalizeDemoRegistryPasswords", e);
+    }
   }
 
   function findAccount(email) {
@@ -46,11 +77,10 @@
     if (readRegistry().length > 0) return;
     var t1 = new Date("2026-05-10T09:00:00.000Z").toISOString();
     var t2 = new Date("2026-05-11T14:30:00.000Z").toISOString();
-    var pw = "DemoPass123";
     writeRegistry([
       {
         email: "riya.sharma@example.com",
-        password: pw,
+        password: DEMO_SHARED_PASSWORD,
         displayName: "Riya Sharma",
         phone: "9876543210",
         orders: [
@@ -60,14 +90,14 @@
       },
       {
         email: "arjun.m@demo.store",
-        password: pw,
+        password: DEMO_SHARED_PASSWORD,
         displayName: "Arjun Mehta",
         phone: "9123456789",
         orders: [{ order_ref: "ORD-2026-2099", status_text: "Out for delivery", courier: "Xpressbees", created_at: t1 }],
       },
       {
         email: "demo.seller@shiprocket.test",
-        password: pw,
+        password: DEMO_SHARED_PASSWORD,
         displayName: "Demo Seller",
         phone: "9988776655",
         orders: [{ order_ref: "ORD-2026-3001", status_text: "Order received", courier: "Blue Dart", created_at: t2 }],
@@ -249,20 +279,8 @@
             if (data && data.requireEmailVerification) {
               showFieldError(err, emailEl, "Confirm your email to sign in.");
               blocked = true;
-              return null;
+              return;
             }
-            var uid = data && data.user && data.user.id;
-            if (uid && typeof window.insforgePostRecords === "function") {
-              return window.insforgePostRecords("user_orders", [
-                {
-                  user_id: uid,
-                  order_ref: "ORD-" + Date.now().toString(36).toUpperCase(),
-                  status_text: "Packed at seller hub",
-                  courier: "Blue Dart",
-                },
-              ]);
-            }
-            return null;
           })
           .then(function () {
             if (blocked) return;
@@ -283,18 +301,12 @@
         showFieldError(err, emailEl, "An account with this email already exists. Sign in instead.");
         return;
       }
-      var defaultOrder = {
-        order_ref: "ORD-" + Date.now().toString(36).toUpperCase(),
-        status_text: "Packed at seller hub",
-        courier: "Blue Dart",
-        created_at: new Date().toISOString(),
-      };
       var newAc = {
         email: email,
         password: pwDemo,
         displayName: name,
         phone: digits,
-        orders: [defaultOrder],
+        orders: [],
       };
       saveAccount(newAc);
       setDemoSession({
@@ -532,6 +544,7 @@
   });
 
   ensureDemoRegistrySeeded();
+  normalizeDemoRegistryPasswords();
   wireLoginEmailForm();
   wireSignupForm();
   wireLoginTrackNow();

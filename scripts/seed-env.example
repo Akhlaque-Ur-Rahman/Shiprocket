@@ -1,0 +1,7 @@
+# Copy to .env.seed in repo root (gitignored) or export in shell before running:
+#   node scripts/seed-insforge-test-users.cjs
+#
+# Do not commit real values.
+
+INSFORGE_BASE_URL=https://YOUR_APPKEY.YOUR_REGION.insforge.app
+SEED_USER_PASSWORD=UseAtLeast8Chars

@@ -59,6 +59,15 @@
         <div class="auth-card auth-card--signup account-dashboard__card">
           <h1 class="auth-card-signup-heading">My orders</h1>
           <p id="ordersError" class="auth-inline-error" role="alert" hidden></p>
+          <button type="button" class="btn btn-outline orders-retry-btn" id="ordersRetryBtn" hidden>Retry</button>
+          <div id="ordersLoading" class="orders-loading" aria-live="polite" aria-busy="true" hidden>
+            <p class="orders-loading__label">Loading your orders</p>
+            <div class="orders-loading__skeleton" aria-hidden="true">
+              <div class="orders-loading__row"></div>
+              <div class="orders-loading__row"></div>
+              <div class="orders-loading__row"></div>
+            </div>
+          </div>
           <div id="ordersEmptyState" class="orders-empty-card" hidden>
             <h2 class="orders-empty-card__title" id="ordersEmptyTitle"></h2>
             <p class="orders-empty-card__text" id="ordersEmptyText" hidden></p>

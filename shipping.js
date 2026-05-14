@@ -53,6 +53,8 @@
 
   let activeTabKey = "awb";
   let staggerTimers = [];
+  /** @type {Element | null} */
+  let preDialogFocusEl = null;
 
   function setActiveTab(tab) {
     if (!TAB_CONFIG[tab]) return;
@@ -91,6 +93,19 @@
     input.focus();
   }
 
+  const urlReturn = urlParams.get("return");
+  if (urlReturn === "orders") {
+    const trackReturnBar = document.getElementById("trackReturnBar");
+    const shippingCtxBar = document.getElementById("shippingAccountContextBar");
+    const ctxLabel = document.getElementById("shippingAccountContextLabel");
+    if (trackReturnBar) trackReturnBar.hidden = false;
+    if (shippingCtxBar) shippingCtxBar.hidden = false;
+    if (ctxLabel) {
+      ctxLabel.hidden = false;
+      ctxLabel.textContent = "Opened from your order history.";
+    }
+  }
+
   function clearError() {
     errorEl.hidden = true;
     errorEl.textContent = "";
@@ -106,13 +121,16 @@
     if (!mockFallbackNote) return;
     if (mode === "no_match") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent = "No match. Sample timeline.";
+      mockFallbackNote.textContent =
+        "No demo record matched this ID. The steps below are a layout preview only, not a real shipment.";
     } else if (mode === "offline") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent = "Sample timeline.";
+      mockFallbackNote.textContent =
+        "Preview backend is off. You are seeing a placeholder timeline, not live tracking.";
     } else if (mode === "error") {
       mockFallbackNote.hidden = false;
-      mockFallbackNote.textContent = "Unable to load.";
+      mockFallbackNote.textContent =
+        "Could not load the demo catalog. Showing a placeholder timeline instead.";
     } else {
       mockFallbackNote.hidden = true;
       mockFallbackNote.textContent = "";
@@ -231,10 +249,19 @@
   }
 
   function openModal() {
+    const ae = document.activeElement;
+    preDialogFocusEl =
+      ae instanceof HTMLElement && ae !== document.body ? ae : trackBtn;
     if (typeof trackingDialog.showModal === "function") {
       trackingDialog.showModal();
     } else {
       trackingDialog.setAttribute("open", "");
+    }
+    const toFocus = modalClose || trackingDialog.querySelector("button");
+    if (toFocus && typeof toFocus.focus === "function") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => toFocus.focus());
+      });
     }
   }
 
@@ -311,7 +338,7 @@
     showMock(reference, undefined, "no_match");
   }
 
-  trackBtn.addEventListener("click", () => {
+  function submitTrack() {
     const raw = input.value.trim();
     if (!raw) {
       showError("Enter a value.");
@@ -334,6 +361,16 @@
     }
 
     void tryInsForgeThenMock(raw);
+  }
+
+  trackBtn.addEventListener("click", () => {
+    submitTrack();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+    e.preventDefault();
+    submitTrack();
   });
 
   input.addEventListener("input", () => {
@@ -350,5 +387,13 @@
   trackingDialog.addEventListener("close", () => {
     clearStaggerTimers();
     setFallbackNote(null);
+    const restore =
+      preDialogFocusEl && typeof preDialogFocusEl.focus === "function"
+        ? preDialogFocusEl
+        : trackBtn;
+    preDialogFocusEl = null;
+    if (restore && typeof restore.focus === "function") {
+      requestAnimationFrame(() => restore.focus());
+    }
   });
 })();

@@ -2,6 +2,7 @@
 # InsForge & AI agent skills
 insforge-config.local.js
 node_modules/
+.env.seed
 
 # Vercel build output (generated locally and on CI)
 public/

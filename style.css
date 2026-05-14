@@ -7449,3 +7449,151 @@ dialog.tracking-modal[open] .tracking-mock-result-inner {
 .orders-table a:hover {
   text-decoration: underline;
 }
+
+.orders-track-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 72px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--text-on-primary);
+  background: var(--primary);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.orders-track-link:hover {
+  text-decoration: none;
+  background: var(--primary-dark);
+  color: var(--text-on-primary);
+}
+
+.orders-track-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.orders-retry-btn {
+  margin-top: 10px;
+}
+
+.orders-loading {
+  padding: 8px 0 20px;
+}
+
+.orders-loading[hidden] {
+  display: none;
+}
+
+.orders-loading__label {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.orders-loading__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.orders-loading__row {
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--surface-primary-soft) 0%,
+    var(--bg-soft) 50%,
+    var(--surface-primary-soft) 100%
+  );
+  background-size: 200% 100%;
+  animation: ordersSkeletonShimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes ordersSkeletonShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.track-return-bar {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface-primary-soft);
+  border: 1px solid var(--border-soft);
+}
+
+.track-return-bar__link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.track-return-bar__link:hover {
+  text-decoration: underline;
+}
+
+.track-return-bar__link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.account-context-bar {
+  background: var(--surface-primary-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.account-context-bar[hidden] {
+  display: none;
+}
+
+.account-context-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 10px 0;
+}
+
+.account-context-bar__link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.account-context-bar__link:hover {
+  text-decoration: underline;
+}
+
+.account-context-bar__link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.account-context-bar__meta {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.account-context-bar__meta[hidden] {
+  display: none;
+}
+
+.profile-track-lead {
+  margin-bottom: 16px;
+}

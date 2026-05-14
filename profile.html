@@ -88,8 +88,11 @@
         </div>
 
         <section id="track-shipment" class="auth-card auth-card--signup account-dashboard__card" aria-labelledby="profileTrackHeading">
+          <div id="trackReturnBar" class="track-return-bar" hidden>
+            <a href="orders.html" class="track-return-bar__link">Back to order history</a>
+          </div>
           <h2 id="profileTrackHeading" class="auth-card-signup-heading">Track shipment</h2>
-          <p class="auth-terms" style="margin-bottom: 16px;">Enter AWB, Order ID, or mobile number. Results open in a dialog on this page.</p>
+          <p class="auth-terms profile-track-lead">Enter AWB, Order ID, or a 10 digit mobile number. Tap Track now to open a timeline in a dialog on this page. This build uses demo data only, not live courier scans.</p>
           <div class="tracking-form-card">
             <div class="tracking-tabs" role="tablist" aria-label="Choose how to track">
               <button type="button" role="tab" id="tracking-tab-awb" class="tab-btn active" data-tab="awb" aria-selected="true" aria-controls="trackingInput">AWB</button>
@@ -116,8 +119,9 @@
       <div class="tracking-mock-header">
         <div class="tracking-mock-header-top">
           <h2 id="trackingModalTitle" class="tracking-mock-title">Shipment journey</h2>
-          <span class="tracking-mock-pill">Sample</span>
+          <span class="tracking-mock-pill">Demo</span>
         </div>
+        <p class="tracking-mock-disclaimer" id="trackingModalDemoLead">Illustrative timeline for this preview. It is not a live carrier feed.</p>
         <p class="tracking-mock-status-line">
           <span class="tracking-mock-status-dot" aria-hidden="true"></span>
           <span id="trackingMockStatusText">Latest scan: out for delivery</span>

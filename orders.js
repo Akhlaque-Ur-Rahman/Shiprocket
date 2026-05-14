@@ -2,6 +2,7 @@
   if (document.body.dataset.ordersPage !== "1") return;
 
   var errEl = document.getElementById("ordersError");
+  var retryBtn = document.getElementById("ordersRetryBtn");
   var table = document.getElementById("ordersTable");
   var tbody = document.getElementById("ordersTableBody");
   var emptyState = document.getElementById("ordersEmptyState");
@@ -18,11 +19,13 @@
     }
   }
 
-  function showErr(msg) {
+  function showErr(msg, opts) {
+    opts = opts || {};
     if (errEl) {
       errEl.textContent = msg;
       errEl.hidden = false;
     }
+    if (retryBtn) retryBtn.hidden = !opts.retry;
   }
 
   function clearErr() {
@@ -30,6 +33,7 @@
       errEl.textContent = "";
       errEl.hidden = true;
     }
+    if (retryBtn) retryBtn.hidden = true;
   }
 
   function hideEmpty() {
@@ -41,10 +45,11 @@
     var p = document.getElementById("ordersEmptyText");
     var loginL = document.getElementById("ordersEmptyLinkLogin");
     if (!emptyState || !t) return;
-    t.textContent = "No orders";
+    t.textContent = "No orders yet";
     if (p) {
-      p.textContent = "";
-      p.hidden = true;
+      p.textContent =
+        "This preview account has no saved orders. Track any AWB, Order ID, or mobile from Track shipment on your profile, or place a test order when your store is connected.";
+      p.hidden = false;
     }
     if (loginL) loginL.hidden = true;
     emptyState.hidden = false;
@@ -104,7 +109,11 @@
       tr.cells[2].textContent = courier;
       tr.cells[3].textContent = formatCreated(created);
       var a = document.createElement("a");
-      a.href = "shipping.html?" + new URLSearchParams({ type: "order", prefill: ref }).toString();
+      a.href =
+        "profile.html?" +
+        new URLSearchParams({ type: "order", prefill: ref, return: "orders" }).toString() +
+        "#track-shipment";
+      a.className = "orders-track-link";
       a.textContent = "Track";
       tr.cells[4].appendChild(a);
       tbody.appendChild(tr);
@@ -127,23 +136,62 @@
   }
 
   if (typeof window.insforgeQueryRecords !== "function") {
-    showErr("Unavailable.");
+    showErr("Orders cannot load right now. Refresh the page, or sign out and sign in again.", {});
     return;
   }
 
-  clearErr();
-  hideEmpty();
-  window
-    .insforgeQueryRecords("user_orders", { limit: "100" })
-    .then(function (rows) {
-      var list = Array.isArray(rows) ? rows.slice() : [];
-      list.sort(function (a, b) {
-        return parseTime(b) - parseTime(a);
+  var loadingEl = document.getElementById("ordersLoading");
+
+  function showLoading() {
+    if (loadingEl) {
+      loadingEl.hidden = false;
+      loadingEl.setAttribute("aria-busy", "true");
+    }
+    if (table) table.hidden = true;
+    hideEmpty();
+  }
+
+  function hideLoading() {
+    if (loadingEl) {
+      loadingEl.hidden = true;
+      loadingEl.setAttribute("aria-busy", "false");
+    }
+  }
+
+  function loadInsForgeOrders() {
+    clearErr();
+    showLoading();
+    window
+      .insforgeQueryRecords("user_orders", { limit: "100" })
+      .then(function (rows) {
+        hideLoading();
+        var list = Array.isArray(rows) ? rows.slice() : [];
+        list.sort(function (a, b) {
+          return parseTime(b) - parseTime(a);
+        });
+        renderOrderRows(list);
+      })
+      .catch(function (e) {
+        hideLoading();
+        hideEmpty();
+        if (table) table.hidden = true;
+        var msg = e && e.message ? String(e.message) : "";
+        if (/network|fetch|failed/i.test(msg)) {
+          showErr("Network issue while loading orders. Check your connection and tap Retry below.", { retry: true });
+        } else {
+          showErr(
+            "We could not load your orders. Try again in a moment, or open Profile and confirm you are still signed in.",
+            { retry: true }
+          );
+        }
       });
-      renderOrderRows(list);
-    })
-    .catch(function (e) {
-      hideEmpty();
-      showErr((e && e.message) || "Unable to load.");
+  }
+
+  if (retryBtn) {
+    retryBtn.addEventListener("click", function () {
+      loadInsForgeOrders();
     });
+  }
+
+  loadInsForgeOrders();
 })();
