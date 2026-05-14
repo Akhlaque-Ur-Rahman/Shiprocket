@@ -30,9 +30,15 @@ npx @insforge/cli db migrations up --all -y
 node scripts/print-insforge-anon-token.cjs
 ```
 
-4. Edit [`insforge-config.js`](../insforge-config.js): set `enabled` to `true`, set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`.
+4. Prefer copying [`insforge-config.example.js`](../insforge-config.example.js) to `insforge-config.local.js` (gitignored): set `enabled` to `true`, set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`, and add `<script src="insforge-config.local.js"></script>` **before** `insforge-client.js` on pages that use InsForge. For a quick local test only, you may edit [`insforge-config.js`](../insforge-config.js) instead, but do not commit real tokens.
 
-Optional: keep secrets out of git by copying `insforge-config.example.js` to `insforge-config.local.js` (gitignored), filling values, adding `<script src="insforge-config.local.js"></script>` **before** `insforge-client.js` on pages that use InsForge. The committed [`insforge-config.js`](../insforge-config.js) ships with `enabled: false` and placeholder `baseUrl` / `anonAccessToken` so the repo stays token-free; turn InsForge on only in your local file or local edits you do not commit.
+## Live versus local
+
+Use the same **local override file** pattern on your laptop and on your production static host:
+
+- **Repository default:** keep [`insforge-config.js`](../insforge-config.js) with `enabled: false` and placeholders so forks stay token-free.
+- **Local dev:** `insforge-config.local.js` points at your trial or dev InsForge project; allow `http://localhost:PORT` in CORS.
+- **Live site:** build or deploy injects `insforge-config.local.js` (or an equivalent first script) with production `baseUrl` and fresh tokens. Rotate `anonAccessToken` when you rotate keys.
 
 ## Email sign up and sign in (InsForge Auth REST)
 
@@ -69,6 +75,28 @@ VALUES (
 ```
 
 Replace the UUID with the real account id. Repeat `INSERT` for more orders. Align `order_ref` with `demo_shipments.reference` (and `tab_key`) if you want the Track dialog to resolve to seeded timeline rows instead of the generic mock.
+
+### SQL batch: several users and matching order rows
+
+End-user accounts (email, password) are created in **Authentication**, not inside `public.user_orders`. After each user exists, copy their **user id** from the Auth Users screen (same UUID the app stores as `user.id`).
+
+`user_orders` uses RLS with `auth.uid()`. Running `INSERT` from a dashboard SQL editor often uses a role that must be allowed to bypass or satisfy those policies. Follow your host docs: typically a **service role** connection, or run inserts while authenticated as that user through the Records API.
+
+For **Order ID** tracking, use `order_ref` values that already exist in `public.demo_shipments` with `tab_key = 'order'`: `ORD-2026-1001`, `ORD-2026-2040`, `ORD-2026-3050`, `ORD-2026-4011` (see migrations under `migrations/`).
+
+```sql
+INSERT INTO public.user_orders (user_id, order_ref, status_text, courier) VALUES
+  ('11111111-1111-1111-1111-111111111111'::uuid, 'ORD-2026-1001', 'Packed at seller hub', 'Delhivery'),
+  ('22222222-2222-2222-2222-222222222222'::uuid, 'ORD-2026-2040', 'Delivered', 'Blue Dart'),
+  ('33333333-3333-3333-3333-333333333333'::uuid, 'ORD-2026-3050', 'Return to origin in progress', 'Delhivery'),
+  ('44444444-4444-4444-4444-444444444444'::uuid, 'ORD-2026-4011', 'Packed at seller hub', 'Xpressbees');
+```
+
+Replace each UUID with a real Auth user id. You can add more rows per user with additional `INSERT` statements. `status_text` and `courier` are what the Orders table shows; they do not have to equal `demo_shipments.status_text`, but matching `order_ref` helps the Track dialog load the seeded steps.
+
+### Tracking dialog fallbacks
+
+[`shipping.js`](../shipping.js) shows a demo timeline plus a short note when: InsForge is not configured for this build (`preview_disabled`), the browser is offline or the request looks like a network failure (`offline`), the API errors (`error`), or no `demo_shipments` row matches the input (`no_match`).
 
 ## Bulk test users (script)
 
@@ -115,7 +143,7 @@ With InsForge enabled, these values load from the `demo_shipments` table. Pick t
 | Mobile | `9123456789` | Mixed: delivered + out for delivery |
 | Mobile | `9988776655` | Exception / delay at hub |
 
-Any other input falls back to the built-in mock timeline.
+Any other input falls back to the built-in mock timeline. The same mock path is used when InsForge is not configured for this build, or when the network cannot reach your project (see the note inside the tracking dialog).
 
 ## Claim trial project
 

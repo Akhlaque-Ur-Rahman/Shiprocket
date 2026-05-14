@@ -97,6 +97,12 @@
     return !!(cfg.enabled && cfg.baseUrl && getDbBearer());
   };
 
+  /** True when this build is meant to use InsForge (`enabled` + `baseUrl`), even before a bearer is present */
+  window.insforgeRemoteConfigured = function insforgeRemoteConfigured() {
+    const cfg = getConfig();
+    return !!(cfg.enabled && cfg.baseUrl);
+  };
+
   /** True when InsForge URL is set and anon or user bearer can call the DB API */
   window.insforgeDbReadable = function insforgeDbReadable() {
     const cfg = getConfig();

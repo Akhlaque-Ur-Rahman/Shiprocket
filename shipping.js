@@ -117,6 +117,17 @@
     return /^https?:\/\//i.test(t) || /^www\./i.test(t) || /:\/\/\S/.test(t);
   }
 
+  function isLikelyNetworkFailure(err) {
+    if (!err) return false;
+    if (typeof navigator !== "undefined" && navigator.onLine === false) return true;
+    const name = String(err.name || "");
+    const msg = String(err.message || err).toLowerCase();
+    if (name === "TypeError" && /fetch|network|failed to load|load failed/i.test(msg)) return true;
+    if (/networkerror/i.test(name)) return true;
+    if (/abort|timeout|timed out|econnreset|enotfound|etimedout|failed to fetch/i.test(msg)) return true;
+    return false;
+  }
+
   function setFallbackNote(mode) {
     if (!mockFallbackNote) return;
     if (mode === "no_match") {
@@ -126,7 +137,11 @@
     } else if (mode === "offline") {
       mockFallbackNote.hidden = false;
       mockFallbackNote.textContent =
-        "Preview backend is off. You are seeing a placeholder timeline, not live tracking.";
+        "Network or server reachability issue. Showing a placeholder timeline instead of live data.";
+    } else if (mode === "preview_disabled") {
+      mockFallbackNote.hidden = false;
+      mockFallbackNote.textContent =
+        "Live InsForge URL or access token is not set in this build. Preview timeline only, not live tracking.";
     } else if (mode === "error") {
       mockFallbackNote.hidden = false;
       mockFallbackNote.textContent =
@@ -299,14 +314,28 @@
   }
 
   async function tryInsForgeThenMock(reference) {
-    if (typeof window.insforgeIsEnabled !== "function" || !window.insforgeIsEnabled()) {
+    const cfg = window.__INSFORGE_CONFIG || {};
+    const remoteConfigured =
+      typeof window.insforgeRemoteConfigured === "function"
+        ? window.insforgeRemoteConfigured()
+        : !!(cfg.enabled && cfg.baseUrl);
+
+    if (!remoteConfigured) {
       if (activeTabKey === "awb" && /^ORD-/i.test(reference)) {
         setActiveTab("order");
       }
-      showMock(reference, undefined, "offline");
+      showMock(reference, undefined, "preview_disabled");
       return;
     }
-    const cfg = window.__INSFORGE_CONFIG || {};
+
+    if (typeof window.insforgeDbReadable !== "function" || !window.insforgeDbReadable()) {
+      if (activeTabKey === "awb" && /^ORD-/i.test(reference)) {
+        setActiveTab("order");
+      }
+      showMock(reference, undefined, "preview_disabled");
+      return;
+    }
+
     const table = cfg.demoTable || "demo_shipments";
     try {
       async function fetchRowForTab(tabKey) {
@@ -332,6 +361,10 @@
       }
     } catch (e) {
       console.warn("InsForge tracking fallback to mock:", e);
+      if (isLikelyNetworkFailure(e)) {
+        showMock(reference, undefined, "offline");
+        return;
+      }
       showMock(reference, undefined, "error");
       return;
     }

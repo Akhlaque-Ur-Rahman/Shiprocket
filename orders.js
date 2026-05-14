@@ -176,8 +176,15 @@
         hideEmpty();
         if (table) table.hidden = true;
         var msg = e && e.message ? String(e.message) : "";
-        if (/network|fetch|failed/i.test(msg)) {
+        var name = e && e.name ? String(e.name) : "";
+        var netFail =
+          (typeof navigator !== "undefined" && navigator.onLine === false) ||
+          /network|failed to fetch|load failed|timeout|timed out|econnreset|enotfound|etimedout/i.test(msg) ||
+          (name === "TypeError" && /fetch/i.test(msg));
+        if (netFail) {
           showErr("Network issue while loading orders. Check your connection and tap Retry below.", { retry: true });
+        } else if (/^InsForge\s(401|403)\b/.test(msg)) {
+          showErr("Session expired or not allowed. Sign out, sign in again, then tap Retry.", { retry: true });
         } else {
           showErr(
             "We could not load your orders. Try again in a moment, or open Profile and confirm you are still signed in.",
