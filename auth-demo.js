@@ -1,5 +1,87 @@
 (function () {
   var DEMO_SESSION_KEY = "shiprocket_demo_session";
+  // Academic demo only: plain passwords in localStorage. Production uses InsForge auth.
+  var DEMO_REGISTRY_KEY = "shiprocket_demo_registry";
+
+  function readRegistry() {
+    try {
+      var raw = localStorage.getItem(DEMO_REGISTRY_KEY);
+      if (!raw) return [];
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function writeRegistry(list) {
+    localStorage.setItem(DEMO_REGISTRY_KEY, JSON.stringify(list));
+  }
+
+  function findAccount(email) {
+    var norm = (email || "").trim().toLowerCase();
+    var list = readRegistry();
+    for (var i = 0; i < list.length; i++) {
+      if ((list[i].email || "").trim().toLowerCase() === norm) return list[i];
+    }
+    return null;
+  }
+
+  function saveAccount(account) {
+    var list = readRegistry();
+    var norm = (account.email || "").trim().toLowerCase();
+    var idx = -1;
+    for (var j = 0; j < list.length; j++) {
+      if ((list[j].email || "").trim().toLowerCase() === norm) {
+        idx = j;
+        break;
+      }
+    }
+    if (idx >= 0) list[idx] = account;
+    else list.push(account);
+    writeRegistry(list);
+  }
+
+  function ensureDemoRegistrySeeded() {
+    if (readRegistry().length > 0) return;
+    var t1 = new Date("2026-05-10T09:00:00.000Z").toISOString();
+    var t2 = new Date("2026-05-11T14:30:00.000Z").toISOString();
+    var pw = "DemoPass123";
+    writeRegistry([
+      {
+        email: "riya.sharma@example.com",
+        password: pw,
+        displayName: "Riya Sharma",
+        phone: "9876543210",
+        orders: [
+          { order_ref: "ORD-2026-1001", status_text: "Packed at seller hub", courier: "Delhivery", created_at: t1 },
+          { order_ref: "ORD-2026-1042", status_text: "In transit", courier: "Blue Dart", created_at: t2 },
+        ],
+      },
+      {
+        email: "arjun.m@demo.store",
+        password: pw,
+        displayName: "Arjun Mehta",
+        phone: "9123456789",
+        orders: [{ order_ref: "ORD-2026-2099", status_text: "Out for delivery", courier: "Xpressbees", created_at: t1 }],
+      },
+      {
+        email: "demo.seller@shiprocket.test",
+        password: pw,
+        displayName: "Demo Seller",
+        phone: "9988776655",
+        orders: [{ order_ref: "ORD-2026-3001", status_text: "Order received", courier: "Blue Dart", created_at: t2 }],
+      },
+    ]);
+  }
+
+  function scrollProfileToTrackIfHash() {
+    if (location.hash !== "#track-shipment") return;
+    requestAnimationFrame(function () {
+      var el = document.getElementById("track-shipment");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   function getDemoSession() {
     try {
@@ -103,13 +185,24 @@
           });
         return;
       }
-      var display = email.split("@")[0];
+      ensureDemoRegistrySeeded();
+      var ac = findAccount(email);
+      if (!ac || ac.password !== password) {
+        showFieldError(
+          err,
+          passEl,
+          "Invalid email or password. Create an account first if you do not have one yet."
+        );
+        return;
+      }
       setDemoSession({
         flow: "login-email",
-        displayName: display,
-        email: email,
+        displayName: ac.displayName,
+        email: ac.email,
+        phone: ac.phone || "",
+        orders: Array.isArray(ac.orders) ? ac.orders : [],
       });
-      window.location.href = "profile.html";
+      window.location.href = "orders.html";
     });
   }
 
@@ -180,13 +273,38 @@
           });
         return;
       }
+      ensureDemoRegistrySeeded();
+      var pwDemo = passEl ? passEl.value : "";
+      if (!pwDemo || pwDemo.length < 8) {
+        showFieldError(err, passEl || emailEl, "Password must be at least 8 characters.");
+        return;
+      }
+      if (findAccount(email)) {
+        showFieldError(err, emailEl, "An account with this email already exists. Sign in instead.");
+        return;
+      }
+      var defaultOrder = {
+        order_ref: "ORD-" + Date.now().toString(36).toUpperCase(),
+        status_text: "Packed at seller hub",
+        courier: "Blue Dart",
+        created_at: new Date().toISOString(),
+      };
+      var newAc = {
+        email: email,
+        password: pwDemo,
+        displayName: name,
+        phone: digits,
+        orders: [defaultOrder],
+      };
+      saveAccount(newAc);
       setDemoSession({
         flow: "signup",
         displayName: name,
         email: email,
         phone: digits,
+        orders: newAc.orders,
       });
-      window.location.href = "profile.html";
+      window.location.href = "orders.html";
     });
   }
 
@@ -294,16 +412,21 @@
   function maybeProfileShipmentsHint() {
     var hint = document.getElementById("profileShipmentsHint");
     if (!hint) return;
-    if (!window.insforgeAuthHasSession || !window.insforgeAuthHasSession()) return;
-    if (typeof window.insforgeQueryRecords !== "function") return;
-    window
-      .insforgeQueryRecords("user_orders", { limit: "5" })
-      .then(function (rows) {
-        var list = Array.isArray(rows) ? rows : [];
-        if (list.length === 0) return;
-        hint.hidden = false;
-      })
-      .catch(function () {});
+    if (useRealInsForgeAuth() && window.insforgeAuthHasSession && window.insforgeAuthHasSession()) {
+      if (typeof window.insforgeQueryRecords !== "function") return;
+      window
+        .insforgeQueryRecords("user_orders", { limit: "5" })
+        .then(function (rows) {
+          var list = Array.isArray(rows) ? rows : [];
+          if (list.length === 0) return;
+          hint.hidden = false;
+        })
+        .catch(function () {});
+      return;
+    }
+    var sess = getDemoSession();
+    var ord = sess && Array.isArray(sess.orders) ? sess.orders : [];
+    if (ord.length > 0) hint.hidden = false;
   }
 
   function wireProfileGate() {
@@ -336,6 +459,7 @@
         }
         fillProfileInsForge(data.user);
         maybeProfileShipmentsHint();
+        scrollProfileToTrackIfHash();
       });
       bindLogout();
       if (saveBtn) {
@@ -374,11 +498,13 @@
       return;
     }
     fillProfileDemo(getDemoSession());
+    maybeProfileShipmentsHint();
     var settingsSec = document.getElementById("settings");
     if (settingsSec) settingsSec.hidden = true;
     var insPanel = document.getElementById("profileInsForgePanel");
     if (insPanel) insPanel.hidden = true;
     bindLogout();
+    scrollProfileToTrackIfHash();
   }
 
   document.addEventListener("click", function (e) {
@@ -405,6 +531,7 @@
     }
   });
 
+  ensureDemoRegistrySeeded();
   wireLoginEmailForm();
   wireSignupForm();
   wireLoginTrackNow();

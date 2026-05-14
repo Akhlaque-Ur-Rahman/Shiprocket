@@ -50,7 +50,7 @@
         <nav aria-label="Account">
           <a href="profile.html" class="account-dashboard__link account-dashboard__link--active" aria-current="page">Overview</a>
           <a href="orders.html" class="account-dashboard__link">Order history</a>
-          <a href="shipping.html" class="account-dashboard__link">Track shipment</a>
+          <a href="profile.html#track-shipment" class="account-dashboard__link">Track shipment</a>
           <a href="profile.html#settings" class="account-dashboard__link">Profile settings</a>
           <a href="index.html" class="account-dashboard__link">Home</a>
         </nav>
@@ -58,11 +58,12 @@
           <p class="account-dashboard__hint-title">Shipments</p>
           <div class="account-dashboard__hint-actions">
             <a href="orders.html">Order history</a>
-            <a href="shipping.html">Track shipment</a>
+            <a href="profile.html#track-shipment">Track shipment</a>
           </div>
         </div>
       </aside>
       <div class="account-dashboard__main">
+        <div class="account-dashboard__main-stack">
         <div class="auth-card auth-card--signup account-profile-card account-dashboard__card">
           <h1 class="auth-card-signup-heading">Your profile</h1>
           <div class="profile-summary" id="profileSummary" hidden>
@@ -85,9 +86,54 @@
           </section>
           <button type="button" class="auth-btn-primary auth-btn-primary--solid" id="profileLogoutBtn">Log out</button>
         </div>
+
+        <section id="track-shipment" class="auth-card auth-card--signup account-dashboard__card" aria-labelledby="profileTrackHeading">
+          <h2 id="profileTrackHeading" class="auth-card-signup-heading">Track shipment</h2>
+          <p class="auth-terms" style="margin-bottom: 16px;">Enter AWB, Order ID, or mobile number. Results open in a dialog on this page.</p>
+          <div class="tracking-form-card">
+            <div class="tracking-tabs" role="tablist" aria-label="Choose how to track">
+              <button type="button" role="tab" id="tracking-tab-awb" class="tab-btn active" data-tab="awb" aria-selected="true" aria-controls="trackingInput">AWB</button>
+              <button type="button" role="tab" id="tracking-tab-order" class="tab-btn" data-tab="order" aria-selected="false" aria-controls="trackingInput">Order ID</button>
+              <button type="button" role="tab" id="tracking-tab-mobile" class="tab-btn" data-tab="mobile" aria-selected="false" aria-controls="trackingInput">Mobile Number</button>
+            </div>
+            <div class="tracking-input-group">
+              <input type="text" placeholder="Enter your AWB Tracking Number" id="trackingInput" autocomplete="off" aria-describedby="trackingTrackError">
+              <button type="button" class="btn btn-primary" id="trackingTrackBtn">Track now</button>
+            </div>
+            <p id="trackingTrackError" class="tracking-inline-error" role="alert" hidden></p>
+          </div>
+        </section>
+        </div>
       </div>
     </div>
   </main>
+
+  <dialog id="trackingResultDialog" class="tracking-modal" aria-labelledby="trackingModalTitle">
+    <button type="button" class="tracking-modal__close" id="trackingModalClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="tracking-modal__inner tracking-mock-result-inner">
+      <div class="tracking-mock-header">
+        <div class="tracking-mock-header-top">
+          <h2 id="trackingModalTitle" class="tracking-mock-title">Shipment journey</h2>
+          <span class="tracking-mock-pill">Sample</span>
+        </div>
+        <p class="tracking-mock-status-line">
+          <span class="tracking-mock-status-dot" aria-hidden="true"></span>
+          <span id="trackingMockStatusText">Latest scan: out for delivery</span>
+        </p>
+        <div class="tracking-mock-chips">
+          <p class="tracking-mock-chip"><span id="trackingMockIdLabel" class="tracking-mock-label">Reference</span> <span id="trackingMockRef" class="tracking-mock-chip-value"></span></p>
+          <p class="tracking-mock-chip"><span class="tracking-mock-label">Partner</span> <span id="trackingMockCourier" class="tracking-mock-chip-value"></span></p>
+        </div>
+      </div>
+      <ol class="tracking-mock-steps" id="trackingMockSteps" aria-live="polite"></ol>
+      <p id="trackingMockFallbackNote" class="tracking-mock-fallback-note" role="status" hidden></p>
+      <div class="tracking-modal__footer">
+        <button type="button" class="btn btn-primary tracking-modal__done" id="trackingModalDone">Done</button>
+      </div>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="container footer-bottom">
@@ -99,6 +145,7 @@
   <script src="insforge-client.js"></script>
   <script src="insforge-auth-client.js"></script>
   <script src="script.js"></script>
+  <script src="shipping.js" defer></script>
   <script src="auth-demo.js" defer></script>
 </body>
 </html>

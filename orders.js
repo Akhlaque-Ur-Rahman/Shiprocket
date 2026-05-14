@@ -36,23 +36,6 @@
     if (emptyState) emptyState.hidden = true;
   }
 
-  function showEmptyDemo() {
-    var t = document.getElementById("ordersEmptyTitle");
-    var p = document.getElementById("ordersEmptyText");
-    var loginL = document.getElementById("ordersEmptyLinkLogin");
-    if (!emptyState || !t) return;
-    t.textContent = "Order history";
-    if (p) {
-      p.textContent = "";
-      p.hidden = true;
-    }
-    if (loginL) {
-      loginL.hidden = false;
-      loginL.textContent = "Sign in";
-    }
-    emptyState.hidden = false;
-  }
-
   function showEmptySignedIn() {
     var t = document.getElementById("ordersEmptyTitle");
     var p = document.getElementById("ordersEmptyText");
@@ -93,12 +76,50 @@
     return "orders-status-badge orders-status-badge--neutral";
   }
 
+  function renderOrderRows(list) {
+    if (!tbody || !table) return;
+    tbody.textContent = "";
+    if (!list.length) {
+      table.hidden = true;
+      showEmptySignedIn();
+      return;
+    }
+    hideEmpty();
+    table.hidden = false;
+    list.forEach(function (r) {
+      var ref = r.order_ref || r.orderRef || "";
+      var status = r.status_text || r.statusText || "";
+      var courier = r.courier || "";
+      var created = r.created_at || r.createdAt || "";
+      var tr = document.createElement("tr");
+      var i;
+      for (i = 0; i < 5; i++) {
+        tr.appendChild(document.createElement("td"));
+      }
+      tr.cells[0].textContent = ref;
+      var badge = document.createElement("span");
+      badge.className = statusBadgeClass(status);
+      badge.textContent = status || "—";
+      tr.cells[1].appendChild(badge);
+      tr.cells[2].textContent = courier;
+      tr.cells[3].textContent = formatCreated(created);
+      var a = document.createElement("a");
+      a.href = "shipping.html?" + new URLSearchParams({ type: "order", prefill: ref }).toString();
+      a.textContent = "Track";
+      tr.cells[4].appendChild(a);
+      tbody.appendChild(tr);
+    });
+  }
+
   if (typeof window.insforgeAuthHasSession !== "function" || !window.insforgeAuthHasSession()) {
-    if (readDemoSession()) {
+    var demoSess = readDemoSession();
+    if (demoSess) {
       clearErr();
-      if (table) table.hidden = true;
-      if (tbody) tbody.textContent = "";
-      showEmptyDemo();
+      var demoOrders = Array.isArray(demoSess.orders) ? demoSess.orders.slice() : [];
+      demoOrders.sort(function (a, b) {
+        return parseTime(b) - parseTime(a);
+      });
+      renderOrderRows(demoOrders);
       return;
     }
     window.location.href = "login.html";
@@ -119,38 +140,7 @@
       list.sort(function (a, b) {
         return parseTime(b) - parseTime(a);
       });
-      if (!tbody || !table) return;
-      tbody.textContent = "";
-      if (!list.length) {
-        table.hidden = true;
-        showEmptySignedIn();
-        return;
-      }
-      hideEmpty();
-      table.hidden = false;
-      list.forEach(function (r) {
-        var ref = r.order_ref || r.orderRef || "";
-        var status = r.status_text || r.statusText || "";
-        var courier = r.courier || "";
-        var created = r.created_at || r.createdAt || "";
-        var tr = document.createElement("tr");
-        var i;
-        for (i = 0; i < 5; i++) {
-          tr.appendChild(document.createElement("td"));
-        }
-        tr.cells[0].textContent = ref;
-        var badge = document.createElement("span");
-        badge.className = statusBadgeClass(status);
-        badge.textContent = status || "—";
-        tr.cells[1].appendChild(badge);
-        tr.cells[2].textContent = courier;
-        tr.cells[3].textContent = formatCreated(created);
-        var a = document.createElement("a");
-        a.href = "shipping.html?" + new URLSearchParams({ type: "order", prefill: ref }).toString();
-        a.textContent = "Track";
-        tr.cells[4].appendChild(a);
-        tbody.appendChild(tr);
-      });
+      renderOrderRows(list);
     })
     .catch(function (e) {
       hideEmpty();

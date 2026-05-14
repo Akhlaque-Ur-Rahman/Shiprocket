@@ -7209,6 +7209,12 @@ dialog.tracking-modal[open] .tracking-mock-result-inner {
   min-width: 0;
 }
 
+.account-dashboard__main-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .account-dashboard__card {
   padding: 28px 24px 24px;
   border-radius: var(--radius-lg);
