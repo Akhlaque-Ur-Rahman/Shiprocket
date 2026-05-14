@@ -30,13 +30,13 @@ npx @insforge/cli db migrations up --all -y
 node scripts/print-insforge-anon-token.cjs
 ```
 
-4. Prefer copying [`insforge-config.example.js`](../insforge-config.example.js) to `insforge-config.local.js` (gitignored): set `enabled` to `true`, set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`, and add `<script src="insforge-config.local.js"></script>` **before** `insforge-client.js` on pages that use InsForge. For a quick local test only, you may edit [`insforge-config.js`](../insforge-config.js) instead, but do not commit real tokens.
+4. Prefer copying [`insforge-config.example.js`](../insforge-config.example.js) to `insforge-config.local.js` (gitignored): set `baseUrl` to your InsForge OSS host (same as `oss_host` in `.insforge/project.json`), paste the token into `anonAccessToken`, and add `<script src="insforge-config.local.js"></script>` **before** `insforge-client.js` on pages that use InsForge. The committed [`insforge-config.js`](../insforge-config.js) already has `enabled: true`; override there only for a quick test, and do not commit real tokens.
 
 ## Live versus local
 
 Use the same **local override file** pattern on your laptop and on your production static host:
 
-- **Repository default:** keep [`insforge-config.js`](../insforge-config.js) with `enabled: false` and placeholders so forks stay token-free.
+- **Repository default:** [`insforge-config.js`](../insforge-config.js) ships with **`enabled: true`** so sign up and sign in use InsForge Auth whenever `baseUrl` and tokens are set. Replace the placeholder `baseUrl` and `anonAccessToken`, or load [`insforge-config.local.js`](../insforge-config.example.js) (gitignored) with real values so you do not commit secrets.
 - **Local dev:** `insforge-config.local.js` points at your trial or dev InsForge project; allow `http://localhost:PORT` in CORS.
 - **Live site:** build or deploy injects `insforge-config.local.js` (or an equivalent first script) with production `baseUrl` and fresh tokens. Rotate `anonAccessToken` when you rotate keys.
 
