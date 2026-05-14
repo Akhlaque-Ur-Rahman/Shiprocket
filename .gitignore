@@ -3,6 +3,9 @@
 insforge-config.local.js
 node_modules/
 
+# Vercel build output (generated locally and on CI)
+public/
+
 .insforge
 .agent
 .agents
