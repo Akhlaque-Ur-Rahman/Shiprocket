@@ -7107,6 +7107,10 @@ dialog.tracking-modal[open] .tracking-mock-result-inner {
     flex: 1;
     min-width: 0;
   }
+
+  .account-dashboard__hint {
+    flex-basis: 100%;
+  }
 }
 
 .account-dashboard__nav-label {
@@ -7124,6 +7128,28 @@ dialog.tracking-modal[open] .tracking-mock-result-inner {
     width: 100%;
     margin-bottom: 6px;
   }
+}
+
+.account-dashboard__nav-label--secondary {
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .account-dashboard__nav-label--secondary {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+}
+
+.account-dashboard__link--site {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.account-dashboard__link--site:hover {
+  color: var(--text-dark);
 }
 
 .account-dashboard__link {
@@ -7245,6 +7271,10 @@ dialog.tracking-modal[open] .tracking-mock-result-inner {
 }
 
 #settings {
+  scroll-margin-top: 96px;
+}
+
+#track-shipment {
   scroll-margin-top: 96px;
 }
 

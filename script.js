@@ -291,12 +291,17 @@ document.querySelectorAll(".faq-question").forEach((button) => {
     const profileA = document.createElement("a");
     profileA.href = "profile.html";
     profileA.className = "nav-demo-user-dropdown__link";
-    profileA.textContent = "Profile";
+    profileA.textContent = "Overview";
 
     const ordersA = document.createElement("a");
     ordersA.href = "orders.html";
     ordersA.className = "nav-demo-user-dropdown__link";
-    ordersA.textContent = "Orders";
+    ordersA.textContent = "Order history";
+
+    const trackA = document.createElement("a");
+    trackA.href = "profile.html#track-shipment";
+    trackA.className = "nav-demo-user-dropdown__link";
+    trackA.textContent = "Track shipment";
 
     const logoutBtn = document.createElement("button");
     logoutBtn.type = "button";
@@ -306,6 +311,7 @@ document.querySelectorAll(".faq-question").forEach((button) => {
 
     dd.appendChild(profileA);
     dd.appendChild(ordersA);
+    dd.appendChild(trackA);
     dd.appendChild(logoutBtn);
     wrap.appendChild(trigger);
     wrap.appendChild(dd);
@@ -316,17 +322,22 @@ document.querySelectorAll(".faq-question").forEach((button) => {
       const dProfile = document.createElement("a");
       dProfile.href = "profile.html";
       dProfile.className = "drawer-login";
-      dProfile.textContent = "Profile";
+      dProfile.textContent = "Overview";
       const dOrders = document.createElement("a");
       dOrders.href = "orders.html";
       dOrders.className = "drawer-login";
-      dOrders.textContent = "Orders";
+      dOrders.textContent = "Order history";
+      const dTrack = document.createElement("a");
+      dTrack.href = "profile.html#track-shipment";
+      dTrack.className = "drawer-login";
+      dTrack.textContent = "Track shipment";
       const dOut = document.createElement("button");
       dOut.type = "button";
       dOut.className = "drawer-login nav-demo-drawer-logout";
       dOut.textContent = "Log out";
       drawer.appendChild(dProfile);
       drawer.appendChild(dOrders);
+      drawer.appendChild(dTrack);
       drawer.appendChild(dOut);
     }
   }

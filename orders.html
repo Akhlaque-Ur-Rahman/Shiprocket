@@ -47,11 +47,14 @@
       <aside class="account-dashboard__sidebar" aria-label="Account sections">
         <p class="account-dashboard__nav-label">Account</p>
         <nav aria-label="Account">
-          <a href="profile.html" class="account-dashboard__link">Overview</a>
-          <a href="orders.html" class="account-dashboard__link account-dashboard__link--active" aria-current="page">Order history</a>
-          <a href="profile.html#track-shipment" class="account-dashboard__link">Track shipment</a>
-          <a href="profile.html#settings" class="account-dashboard__link">Profile settings</a>
-          <a href="index.html" class="account-dashboard__link">Home</a>
+          <a href="profile.html" data-dashboard-nav="overview" class="account-dashboard__link">Overview</a>
+          <a href="orders.html" data-dashboard-nav="orders" class="account-dashboard__link account-dashboard__link--active" aria-current="page">Order history</a>
+          <a href="profile.html#track-shipment" data-dashboard-nav="track" class="account-dashboard__link">Track shipment</a>
+          <a href="profile.html#settings" data-dashboard-nav="settings" class="account-dashboard__link">Profile settings</a>
+        </nav>
+        <p class="account-dashboard__nav-label account-dashboard__nav-label--secondary">Site</p>
+        <nav aria-label="Site">
+          <a href="index.html" data-dashboard-nav="home" class="account-dashboard__link account-dashboard__link--site">Home</a>
         </nav>
       </aside>
       <div class="account-dashboard__main">

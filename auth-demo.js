@@ -105,11 +105,50 @@
     ]);
   }
 
-  function scrollProfileToTrackIfHash() {
-    if (location.hash !== "#track-shipment") return;
+  function scrollProfileToHashSection() {
+    if (document.body.dataset.profilePage !== "1") return;
+    var hash = location.hash;
+    if (hash !== "#track-shipment" && hash !== "#settings") return;
     requestAnimationFrame(function () {
-      var el = document.getElementById("track-shipment");
+      var id = hash.slice(1);
+      var el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function applyProfileSettingsNavVisibility(showSettings) {
+    if (document.body.dataset.profilePage !== "1") return;
+    var a = document.querySelector('.account-dashboard__sidebar a[data-dashboard-nav="settings"]');
+    if (a) a.hidden = !showSettings;
+  }
+
+  function syncProfileSidebarNav() {
+    if (document.body.dataset.profilePage !== "1") return;
+    var hash = (location.hash || "").toLowerCase();
+    var activeKey = "overview";
+    if (hash === "#track-shipment") activeKey = "track";
+    else if (hash === "#settings") activeKey = "settings";
+
+    document.querySelectorAll(".account-dashboard__sidebar a[data-dashboard-nav]").forEach(function (a) {
+      var key = a.getAttribute("data-dashboard-nav");
+      var isActive = key === activeKey;
+      a.classList.toggle("account-dashboard__link--active", isActive);
+      if (isActive) {
+        a.setAttribute("aria-current", "page");
+      } else {
+        a.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  var profileHashNavWired = false;
+  function wireProfileHashNavOnce() {
+    if (profileHashNavWired) return;
+    profileHashNavWired = true;
+    window.addEventListener("hashchange", function () {
+      if (document.body.dataset.profilePage !== "1") return;
+      syncProfileSidebarNav();
+      scrollProfileToHashSection();
     });
   }
 
@@ -517,6 +556,8 @@
   function wireProfileGate() {
     if (document.body.dataset.profilePage !== "1") return;
 
+    wireProfileHashNavOnce();
+
     var logoutBtn = document.getElementById("profileLogoutBtn");
     var saveBtn = document.getElementById("profileSaveNameBtn");
 
@@ -537,6 +578,8 @@
       if (settingsSec) settingsSec.hidden = false;
       var insPanel = document.getElementById("profileInsForgePanel");
       if (insPanel) insPanel.hidden = false;
+      applyProfileSettingsNavVisibility(true);
+      syncProfileSidebarNav();
       window.insforgeAuthGetCurrent().then(function (data) {
         if (!data || !data.user) {
           window.location.href = "login.html";
@@ -544,7 +587,8 @@
         }
         fillProfileInsForge(data.user);
         maybeProfileShipmentsHint();
-        scrollProfileToTrackIfHash();
+        syncProfileSidebarNav();
+        scrollProfileToHashSection();
       });
       bindLogout();
       if (saveBtn) {
@@ -588,8 +632,10 @@
     if (settingsSec) settingsSec.hidden = true;
     var insPanel = document.getElementById("profileInsForgePanel");
     if (insPanel) insPanel.hidden = true;
+    applyProfileSettingsNavVisibility(false);
+    syncProfileSidebarNav();
     bindLogout();
-    scrollProfileToTrackIfHash();
+    scrollProfileToHashSection();
   }
 
   document.addEventListener("click", function (e) {
